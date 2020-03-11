@@ -5,40 +5,30 @@
 ## Compilation
 ##
 
-CORENAME	=	arcade
+CORE	=	arcade
 
-CORESRC		=	core/main.cpp
+GAME	=	libgames
 
-GAMESRC		=	games/main.cpp
+all: core games graphicals
 
-LIBSRC		=	lib/main.cpp
+core:	$(CORE)
 
-SRC			=	$(CORESRC)	\
-				$(GAMESRC)	\
-				$(LIBSRC)	\
+$(CORE):
+	make -C ./core
 
-OBJ	=	$(SRC:.cpp=.o)
+games: $(GAME)
 
-CPPFLAGS	= -Wall -Wextra -g3
-
-all:
-	echo "TODO"
-
-core:
-	echo "Build $(CORESRC)"
-
-games:
+$(GAME):
 	echo "Build $(GAMESRC)"
 
 graphicals:
-	echo "Build $(LIBSRC)
+	echo "graphicals"
 
 clean:
-	rm -f *.o
-	rm -f $(SRC:.cpp=.o)
+	make clean -C  ./core
 
-fclean: clean
-	rm -f $(NAME)
+fclean:
+	make fclean -C  ./core
 
 re: fclean all
 
