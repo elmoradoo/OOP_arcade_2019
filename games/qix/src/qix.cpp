@@ -50,7 +50,7 @@ int qix::interprete_input(int input)
         p.x--;
     if (input == 'd' && p.x < 101 && map[p.y][p.x + 1] != '*' && map[p.y][p.x + 1] != 'a')
         p.x++;
-    if (input == 'e')
+    if (input == 'e' || firework.nb == firework.animeboss.size())
         return (-1);
     if (map[p.y][p.x] == ' ' && map[p.yb][p.xb] == '#') {
         count.x = p.xb;
@@ -151,6 +151,26 @@ void qix::addnewborder(std::size_t i, std::size_t j)
     }
 }
 
+bool qix::checkbosspos(int nbx, int nby)
+{
+    for (int i = 0; i != 7; i++) 
+        if (map[b.y + i][b.x + nbx] == '#')
+            return (false);
+    for (int i = 0; i != 10; i++) 
+        if (map[b.y + nby][b.x + i] == '#')
+            return (false);
+    return (true);
+}
+
+void qix::setgameover()
+{
+    std::ifstream _file("gameover", std::ios::in);
+    std::string buffer;
+
+    while (std::getline(_file, buffer, '\n'))
+        gameover.push_back(buffer);
+}
+
 void qix::bossmovement()
 {
     int nb = std::rand()%4+1;
@@ -158,14 +178,24 @@ void qix::bossmovement()
     b.nb++;
     if (b.nb == b.animeboss.size())
         b.nb = 0;
-    if (nb == 1 && (b.x + 7) < 101)
+    if (nb == 1 && (b.x + 9) < 101 && checkbosspos(9, 0))
         b.x++;
-    else if (nb ==2 && (b.x) > 1)
+    else if (nb ==2 && (b.x) > 1 && checkbosspos(-1, 0))
         b.x--;
-    else if (nb == 3  && (b.y + 7) < 51)
+    else if (nb == 3  && (b.y + 7) < 51 && checkbosspos(0, 7))
         b.y++;
-    else if ((b.y) > 1)
+    else if ((b.y) > 1 && checkbosspos(0, -1))
         b.y--;
+    else
+        bossmovement();
+    for (int i = 0; i != 7; i++)
+        for (int j = 0; j != 10; j++)
+            if (map[b.y + i][b.x + j] == '*' || ((b.y+i) == p.y && (b.x+j) == p.x)) {
+                p.x = count.x;
+                p.y = count.y;
+                for (std::size_t a = 0; a != map.size(); a++)
+                    std::replace( map[a].begin(), map[a].end(), '*', ' ');
+            }
 }
 
 void printback(char c, std::size_t i, std::size_t j)
@@ -210,6 +240,24 @@ void printback(char c, std::size_t i, std::size_t j)
 
 void qix::display()
 {
+    for (std::size_t i = 0; i != ennemies.size(); i++)
+        if (ennemies[i].x == p.x && ennemies[i].y == p.y)
+            score = -1;
+    if (score == -1) {
+        for (std::size_t i = 0; i != gameover.size(); i++)
+            for (std::size_t j = 0; j != gameover[i].length(); j++)
+                printback(gameover[i][j], 10 + i, 50 + j);
+        mvprintw(25, 110, "GAME OVER!");
+        mvprintw(26, 110, "exit : E");
+        return;
+    }
+    if ((score * 100 / 5000) >= 75) {
+        for (std::size_t i = 0; i != firework.animeboss[firework.nb].size(); i++)
+            mvprintw(i , 0, firework.animeboss[firework.nb][i].c_str());
+        mvprintw(25, 110, "WELL PLAY!");
+        firework.nb++;
+        return;
+    }
     if (map[p.y][p.x] == '#' && map[p.yb][p.xb] != '#')
         changemap();
     if (map[p.y][p.x] == ' ')
@@ -224,10 +272,20 @@ void qix::display()
     for (std::size_t i = 0; i != b.animeboss[b.nb].size(); i++)
         mvprintw(i + b.y, 0 + b.x, b.animeboss[b.nb][i].c_str());
     bossmovement();
+    score = 0;
     for (std::size_t i = 0; i != background.size(); i++)
         for (std::size_t j = 0; j != background[i].length(); j++)
-            if (map[i][j] == 'a')
+            if (map[i][j] == 'a') {
+                score++;
                 printback(background[i][j], i ,j);
+            }
+    mvprintw(25, 110, "CLAIMED :    %%");
+    mvprintw(26, 110, "exit    :    E");
+    mvprintw(27, 110, "up      :    Z");
+    mvprintw(28, 110, "down    :    S");
+    mvprintw(29, 110, "left    :    Q");
+    mvprintw(30, 110, "right   :    D");
+    mvprintw(25, 121, std::to_string(score * 100 / 5000).c_str());
 }
 
 void qix::addEnnemies(int x, int y, std::string s)
@@ -249,6 +307,23 @@ void qix::setbackground()
 
     while (std::getline(_file, buffer, '\n'))
         background.push_back(buffer);
+}
+
+void qix::setfirework()
+{
+    std::ifstream _file("firework", std::ios::in);
+    std::string buffer;
+    std::vector<std::string> sprite;
+    int nb = 0;
+
+    while (std::getline(_file, buffer, '\n')) {
+        sprite.push_back(buffer);
+        nb++;
+        if (nb % 35 == 0) {
+            firework.animeboss.push_back(sprite);
+            sprite.clear();
+        }
+    }
 }
 
 void qix::addboss()
@@ -289,5 +364,8 @@ qix::qix()
     addEnnemies(0, 25, "X");
     addEnnemies(101, 25, "X");
     setbackground();
+    setfirework();
+    setgameover();
     addboss();
+    score = 0;
 }

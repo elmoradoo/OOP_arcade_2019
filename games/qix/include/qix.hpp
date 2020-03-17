@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
+#include <unistd.h>
 
 struct player {
     std::string c = "0";
@@ -51,6 +52,9 @@ class qix {
         void addboss();
         void ennemiesmove();
         void setbackground();
+        void setgameover();
+        void setfirework();
+        bool checkbosspos(int nbx, int nby);
         void bossmovement();
         void changemap();
         int countdistance(player tmp, bool t);
@@ -58,10 +62,13 @@ class qix {
     private:
         std::vector<std::string> map;
         std::vector<std::string> background;
+        std::vector<std::string> gameover;
+        boss firework;
         player p;
         std::vector<player> ennemies;
         boss b;
         counter count;
+        int score;
     protected:
 };
 
