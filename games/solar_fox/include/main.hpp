@@ -11,7 +11,10 @@
 #include <memory>
 #include <unistd.h>
 #include <vector>
+
 #include <iostream>
+#include <fstream>
+
 #include <sys/ioctl.h>
 #include <sys/utsname.h>
 #include "ngame.hpp"

@@ -15,12 +15,15 @@ int main()
     ngame game;
     keypad(stdscr, TRUE);
     curs_set(0);
+    game.loadLevel("maps/map01.txt");
     while (1) {
         game.refreshWinSize();
-        game.getInput();
         game.display();
+        game.getInput();
         refresh();
     }
     endwin();
     return 0;
 }
+
+// UNE HEURE SEIZE
