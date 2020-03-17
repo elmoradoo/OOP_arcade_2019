@@ -7,13 +7,6 @@
 
 #include "qix.hpp"
 
-int interprete_input(int input)
-{
-    if (input == 'q')
-        return (-1);
-    return (0);
-}
-
 void qix_game(qix game)
 {
     struct winsize w;
@@ -22,9 +15,10 @@ void qix_game(qix game)
     while (1) {
         ioctl(0, TIOCGWINSZ, &w);   
         erase();
+        game.ennemiesmove();
         game.display();
         refresh();
-        input = interprete_input(getch());
+        input = game.interprete_input(getch());
         if (input == -1)
             break;
     }
@@ -32,12 +26,23 @@ void qix_game(qix game)
 
 int main()
 {
+    std::srand(std::time(nullptr));
     initscr();
     noecho();
     cbreak();
     curs_set(FALSE);
     timeout(1000);
     keypad(stdscr, TRUE);
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_BLACK, COLOR_BLACK);
+    init_pair(3, 160, 160);
+    init_pair(4, 220, 220);
+    init_pair(5, 20, 20);
+    init_pair(6, 130, 130);
+    init_pair(7, 15, 15);
+    init_pair(8, COLOR_WHITE, COLOR_WHITE);
+    init_pair(9, 6, 6);
     qix game;
     qix_game(game);
     endwin();
