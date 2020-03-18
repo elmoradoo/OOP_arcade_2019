@@ -7,8 +7,9 @@
 
 NAME	=	snake
 
-SRC	=	src/snake.cpp	\
-		src/snake_class.cpp	\
+SRC	=	src/main.cpp	\
+		src/snake_ncurses.cpp	\
+		src/snake_class.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
@@ -20,7 +21,7 @@ $(NAME):	$(OBJ)
 	g++ $(CPPFLAGS) -o $(NAME) $(OBJ) -lncurses
 
 clean:
-	rm -f *.o
+	rm -f src/*.o
 	rm -f vgcore*
 	rm -f ~*
 

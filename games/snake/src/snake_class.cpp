@@ -7,6 +7,14 @@
 
 #include "snake.hpp"
 
+snake_g::snake_g()
+{
+}
+
+snake_g::~snake_g()
+{
+}
+
 snake_c::snake_c() : length(0), previous_input("LEFT"), list(NULL)
 {
 }
