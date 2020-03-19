@@ -20,7 +20,29 @@ void qix::ennemiesmove()
     int x = 0;
     int y = 0;
 
+    if (tmptime > 20) {
+        x = tmpplayer.xb;
+        y = tmpplayer.yb;
+        tmpplayer.xb = tmpplayer.x;
+        tmpplayer.yb = tmpplayer.y;
+        if ((tmpplayer.x - x) < 0 && (tmpplayer.x - 1) > -1 && map[tmpplayer.y][tmpplayer.x - 1] == '*')
+            tmpplayer.x--;
+        else if ((tmpplayer.x - x) > 0 && (tmpplayer.x + 1) < 102 && map[tmpplayer.y][tmpplayer.x + 1] == '*')
+            tmpplayer.x++;
+        else if ((tmpplayer.y - y) < 0 && (tmpplayer.y - 1) > -1 && map[tmpplayer.y - 1][tmpplayer.x] == '*')
+            tmpplayer.y--;
+        else if ((tmpplayer.y - y) > 0 && (tmpplayer.y + 1) < 52 && map[tmpplayer.y + 1][tmpplayer.x] == '*')
+            tmpplayer.y++;
+        else {
+            if ((tmpplayer.x - x) != 0)
+                tmpplayer.y = ((tmpplayer.y - 1 > -1) && (map[tmpplayer.y - 1][tmpplayer.x] == '*') ? tmpplayer.y - 1 : tmpplayer.y + 1);
+            else
+                tmpplayer.x = ((tmpplayer.x - 1 > -1) && (map[tmpplayer.y][tmpplayer.x - 1] == '*') ? tmpplayer.x - 1 : tmpplayer.x + 1);
+        }
+    }
     for (std::size_t i = 0; i != ennemies.size(); i++) {
+        if (map[ennemies[i].y][ennemies[i].x] != '#')
+            continue;
         x = ennemies[i].xb;
         y = ennemies[i].yb;
         ennemies[i].xb = ennemies[i].x;
@@ -193,6 +215,7 @@ void qix::bossmovement()
             if (map[b.y + i][b.x + j] == '*' || ((b.y+i) == p.y && (b.x+j) == p.x)) {
                 p.x = count.x;
                 p.y = count.y;
+                tmptime = 0;
                 for (std::size_t a = 0; a != map.size(); a++)
                     std::replace( map[a].begin(), map[a].end(), '*', ' ');
             }
@@ -243,6 +266,8 @@ void qix::display()
     for (std::size_t i = 0; i != ennemies.size(); i++)
         if (ennemies[i].x == p.x && ennemies[i].y == p.y)
             score = -1;
+    if (tmpplayer.x == p.x && tmpplayer.y == p.y && tmptime > 20)
+            score = -1;
     if (score == -1) {
         for (std::size_t i = 0; i != gameover.size(); i++)
             for (std::size_t j = 0; j != gameover[i].length(); j++)
@@ -254,18 +279,39 @@ void qix::display()
     if ((score * 100 / 5000) >= 75) {
         for (std::size_t i = 0; i != firework.animeboss[firework.nb].size(); i++)
             mvprintw(i , 0, firework.animeboss[firework.nb][i].c_str());
-        mvprintw(25, 110, "WELL PLAY!");
+        mvprintw(25, 110, "WELL PLAYED!");
         firework.nb++;
         return;
     }
-    if (map[p.y][p.x] == '#' && map[p.yb][p.xb] != '#')
+    if (tmptime == 20) {
+        tmpplayer.xb = count.x;
+        tmpplayer.yb = count.y;
+        tmpplayer.x = count.x;
+        tmpplayer.y = count.y;
+        if ((count.x - 1) > 0 && map[count.y][count.x - 1] == '*') {
+            tmpplayer.x--;
+        } else if ((count.y - 1) > 0 && map[count.y - 1][count.x] == '*') {
+            tmpplayer.y--;
+        } else if ((count.x + 1) < static_cast<int>(map[0].length()) && map[count.y][count.x + 1] == '*') {
+            tmpplayer.x++;
+        } else if ((count.y + 1) < static_cast<int>(map.size()) && map[count.y + 1][count.x] == '*') {
+            tmpplayer.y++;
+        }
+    }
+    if (map[p.y][p.x] == '#' && map[p.yb][p.xb] != '#') {
+        tmptime = 0;
         changemap();
-    if (map[p.y][p.x] == ' ')
+    }
+    if (map[p.y][p.x] == ' ' || map[p.y][p.x] == '*') {
+        tmptime++;
         map[p.y][p.x] = '*';
+    }
     for (std::size_t i = 0; i != map.size(); i++)
         mvprintw(i, 0, map[i].c_str());
     mvprintw(p.y, p.x, p.c.c_str());
     attron(COLOR_PAIR(1));
+    if (tmptime > 20)
+        mvprintw(tmpplayer.y, tmpplayer.x, "X");
     for (std::size_t i = 0; i != ennemies.size(); i++)
         mvprintw(ennemies[i].y, ennemies[i].x, ennemies[i].c.c_str());
     attroff(COLOR_PAIR(1));
@@ -368,4 +414,5 @@ qix::qix()
     setgameover();
     addboss();
     score = 0;
+    tmptime = 0;
 }

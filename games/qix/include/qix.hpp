@@ -66,6 +66,8 @@ class qix {
         boss firework;
         player p;
         std::vector<player> ennemies;
+        player tmpplayer;
+        int tmptime;
         boss b;
         counter count;
         int score;

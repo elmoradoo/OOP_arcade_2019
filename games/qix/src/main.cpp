@@ -31,7 +31,7 @@ int main()
     noecho();
     cbreak();
     curs_set(FALSE);
-    timeout(100);
+    timeout(300);
     keypad(stdscr, TRUE);
     start_color();
     init_pair(1, COLOR_RED, COLOR_BLACK);
