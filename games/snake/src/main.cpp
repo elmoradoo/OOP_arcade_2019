@@ -9,31 +9,26 @@
 
 int snake_game(snake_g *game)
 {
-    int score = 0;
     int input = 0;
     int speed = 750;
-    std::shared_ptr<snake_c> snake(new snake_c());
-    int **map = game->create_map();
+    std::shared_ptr<snake_c> snake = game->init_snake();
+    std::vector<std::string> map = game->create_map();
 
-    snake = game->init_snake(snake);
     game->init_game();
-    game->put_fruit(map, snake);
+    map = game->put_fruit(map, snake);
     while ((input = game->get_input()) != 'q') {
         timeout(speed);
         if (game->move_snake(snake, input, map) == -1)
             break;
-        score = game->check_if_fruit(map, snake, score);
-        if (snake->getPos().x == 0 || snake->getPos().x == 9 || snake->getPos().y == 0 || snake->getPos().y == 39)
+        if (snake->getPos(0).x == 0 || snake->getPos(0).x == 9 || snake->getPos(0).y == 0 || snake->getPos(0).y == 39)
             break;
-        game->put_snake_on_map(snake, map);
-        if (game->render_map(map) == -1) {
-            game->close_game(map);
-            return (-1);
-        }
-        speed = game->change_speed(score);
+        map = game->check_if_fruit(map, snake);
+        map = game->put_snake_on_map(snake, map);
+        game->render_map(map);
+        speed = game->change_speed(snake->getLength() - 3);
     }
-    game->close_game(map);
-    return (score);
+    game->close_game();
+    return (snake->getLength() - 3);
 }
 
 int main(void)

@@ -15,211 +15,169 @@ snake_g_ncurses::~snake_g_ncurses()
 {
 }
 
-int snake_g_ncurses::render_map(int **map)
+void snake_g_ncurses::render_map(std::vector<std::string> map)
 {
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 40; j++) {
-            if (map[i][j] == 1)
-                mvprintw(i, j, " ");
-            else if (map[i][j] == 2)
-                mvprintw(i, j, "-");
-            else if (map[i][j] == 3)
-                mvprintw(i, j, "|");
-            else if (map[i][j] == 4)
-                mvprintw(i, j, "+");
-            else if (map[i][j] == 5)
-                mvprintw(i, j, "*");
-            else if (map[i][j] == 6)
-                mvprintw(i, j, "O");
-            else
-                return (-1);
-        }
-        mvprintw(i, 40, " ");
-    }
+    unsigned int i = 0;
+
+    for (i = 0; i < map.size(); i++)
+        mvprintw(i, 0, map[i].c_str());
     refresh();
-    return (0);
 }
 
-int snake_g_ncurses::check_if_lose(std::shared_ptr<snake_c> snake, int input, int **map)
+int snake_g_ncurses::check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
 {
-    pos_t temp = snake->getPos();
+    pos_t pos_0 = snake->getPos(0);
     std::string previous = snake->getPrevious();
 
-    if (input == KEY_UP && previous != "DOWN" && map[temp.x - 1][temp.y] == 5)
+    if (input == KEY_UP && previous != "DOWN" && map[pos_0.x - 1][pos_0.y] == '*')
         return (-1);
-    else if (input == KEY_DOWN && previous != "UP" && map[temp.x + 1][temp.y] == 5)
+    else if (input == KEY_DOWN && previous != "UP" && map[pos_0.x + 1][pos_0.y] == '*')
         return (-1);
-    else if (input == KEY_LEFT && previous != "RIGHT" && map[temp.x][temp.y - 1] == 5)
+    else if (input == KEY_LEFT && previous != "RIGHT" && map[pos_0.x][pos_0.y - 1] == '*')
         return (-1);
-    else if (input == KEY_RIGHT && previous != "LEFT" && map[temp.x][temp.y + 1] == 5)
+    else if (input == KEY_RIGHT && previous != "LEFT" && map[pos_0.x][pos_0.y + 1] == '*')
         return (-1);
     return (0);
 }
 
-int snake_g_ncurses::move_snake(std::shared_ptr<snake_c> snake, int input, int **map)
+int snake_g_ncurses::move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
 {
-    list_t *head;
-    list_t *list;
-    pos_t pos;
+    pos_t previous_pos = snake->getPos(0);
     pos_t temp;
     std::string previous = snake->getPrevious();
 
-    list = snake->getList();
-    head = list;
-    pos = list->pos;
     if (check_if_lose(snake, input, map) == -1)
         return (-1);
     else if (input == KEY_UP && previous != "DOWN") {
-        list->pos.x -= 1;
+        snake->setPosx(previous_pos.x - 1, 0);
         snake->setPrevious("UP");
     } else if (input == KEY_DOWN && previous != "UP") {
-        list->pos.x += 1;
+        snake->setPosx(previous_pos.x + 1, 0);
         snake->setPrevious("DOWN");
     } else if (input == KEY_LEFT && previous != "RIGHT") {
-        list->pos.y -= 1;
+        snake->setPosy(previous_pos.y - 1, 0);
         snake->setPrevious("LEFT");
     } else if (input == KEY_RIGHT  && previous != "LEFT") {
-        list->pos.y += 1;
+        snake->setPosy(previous_pos.y + 1, 0);
         snake->setPrevious("RIGHT");
     } else {
         if (previous == "UP")
-            list->pos.x -= 1;
+            snake->setPosx(previous_pos.x - 1, 0);
         else if (previous == "DOWN")
-            list->pos.x += 1;
+            snake->setPosx(previous_pos.x + 1, 0);
         else if (previous == "LEFT")
-            list->pos.y -= 1;
+            snake->setPosy(previous_pos.y - 1, 0);
         else if (previous == "RIGHT")
-            list->pos.y += 1;
+            snake->setPosy(previous_pos.y + 1, 0);
     }
-    for (int i = 0; i < snake->getLength() - 1; i++) {
-        list = list->next;
-        temp = list->pos;
-        list->pos = pos;
-        pos = temp;
+    for (int i = 1; i < snake->getLength(); i++) {
+        temp = snake->getPos(i);
+        snake->setPos(previous_pos, i);
+        previous_pos = temp;
     }
-    snake->setHead(head);
     return (0);
 }
 
-void snake_g_ncurses::put_snake_on_map(std::shared_ptr<snake_c> snake, int **map)
+std::vector<std::string> snake_g_ncurses::put_snake_on_map(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
 {
-    list_t *temp = snake->getList();
-
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 40; j++) {
-            if (map[i][j] == 5)
-                map[i][j] = 1;
+    for (unsigned int i = 0; i < map.size(); i++) {
+        for (unsigned int j = 0; j < map[i].size(); j++) {
+            if (map[i][j] == '*')
+                map[i][j] = ' ';
         }
     }
-    for (int i = 0; i < snake->getLength(); i++) {
-        map[temp->pos.x][temp->pos.y] = 5;
-        temp = temp->next;
-    }
-}
-
-int **snake_g_ncurses::create_map()
-{
-    int **map = (int **) malloc(sizeof(int *) * 11);
-
-    for (int i = 0; i < 10; i++) {
-        map[i] = (int *) malloc(sizeof(int) * 41);
-        for (int j = 0; j < 40; j++)
-            map[i][j] = 1;
-        map[i][40] = 0;
-        map[i + 1] = NULL;
-    }
-    for (int i = 0; i < 40; i++) {
-        map[0][i] = 2;
-        map[9][i] = 2;
-    }
-    for (int i = 0; i < 10; i++) {
-        map[i][39] = 3;
-        map[i][0] = 3;
-    }
-    map[0][0] = 4;
-    map[0][39] = 4;
-    map[9][0] = 4;
-    map[9][39] = 4;
+    for (unsigned int i = 0; i < snake->getList().size(); i++)
+        map[snake->getPos(i).x][snake->getPos(i).y] = '*';
     return (map);
 }
 
-void snake_g_ncurses::close_game(int **map)
+std::vector<std::string> snake_g_ncurses::create_map(void)
 {
-    for (int i = 0; map[i]; i++)
-        free(map[i]);
-    free(map);
+    std::vector<std::string> map;
+
+    map.push_back("+---------------------------------------+");
+    for (int i = 0; i < 10; i++)
+        map.push_back("|                                       |");
+    map.push_back("+---------------------------------------+");
+    return (map);
+}
+
+void snake_g_ncurses::close_game(void)
+{
     endwin();
 }
 
-std::shared_ptr<snake_c> snake_g_ncurses::init_snake(std::shared_ptr<snake_c> snake)
+std::shared_ptr<snake_c> snake_g_ncurses::init_snake(void)
 {
+    std::shared_ptr<snake_c> snake(new snake_c);
     pos_t pos = {5, 19};
 
-    snake->setHead(pos);
-    snake->setLength(1);
+    snake->addElem(pos);
     pos.y += 1;
     snake->addElem(pos);
-    snake->setLength(2);
     pos.y += 1;
     snake->addElem(pos);
-    snake->setLength(3);
     return (snake);
 }
 
-void snake_g_ncurses::put_fruit(int **map, std::shared_ptr<snake_c> snake)
+std::vector<std::string> snake_g_ncurses::put_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
-    list_t *temp = snake->getList();
     pos_t fruit_pos;
 
-    fruit_pos.x = rand() % 9;
-    fruit_pos.y = rand() % 39;
-    if (fruit_pos.x == 0)
-        fruit_pos.x += 1;
-    if (fruit_pos.y == 0)
-        fruit_pos.y += 1;
+    fruit_pos.x = rand() % 8 + 1;
+    fruit_pos.y = rand() % 38 + 1;
     for (int i = 0; i < snake->getLength(); i++) {
-        if (fruit_pos.x == snake->getPos().x && fruit_pos.y == snake->getPos().y) {
-            i = -1;
-            temp = snake->getList();
+        if (fruit_pos.x == snake->getPos(i).x && fruit_pos.y == snake->getPos(i).y) {
+            fruit_pos.x = rand() % 9 + 1;
+            fruit_pos.y = rand() % 39 + 1;
+            i = 0;
             continue;
         }
-        temp = temp->next;
     }
-    map[fruit_pos.x][fruit_pos.y] = 6;
+    map[fruit_pos.x][fruit_pos.y] = 'O';
+    return (map);
 }
 
-void snake_g_ncurses::add_body_to_snake(std::shared_ptr<snake_c> snake)
+void snake_g_ncurses::add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
 {
     pos_t new_pos;
-    list_t *list = snake->getList();
 
-    for (int i = 0; i < snake->getLength() - 2; i++)
-        list = list->next;
-    if (list->pos.x - list->next->pos.x < 0) {
-        new_pos.x = list->next->pos.x + 1;
-        new_pos.y = list->next->pos.y;
-    } else if (list->pos.x - list->next->pos.x > 0) {
-        new_pos.x = list->next->pos.x - 1;
-        new_pos.y = list->next->pos.y;
-    } else if (list->pos.y - list->next->pos.y > 0) {
-        new_pos.x = list->next->pos.x;
-        new_pos.y = list->next->pos.y - 1;
-    } else if (list->pos.y - list->next->pos.y < 0) {
-        new_pos.x = list->next->pos.x;
-        new_pos.y = list->next->pos.y + 1;
+    if (snake->getPos(snake->getLength() - 2).x - snake->getPos(snake->getLength() - 1).x < 0) {
+        new_pos.x = snake->getPos(snake->getLength() - 1).x + 1;
+        new_pos.y = snake->getPos(snake->getLength() - 1).y;
+    } else if (snake->getPos(snake->getLength() - 2).x - snake->getPos(snake->getLength() - 1).x > 0) {
+        new_pos.x = snake->getPos(snake->getLength() - 1).x - 1;
+        new_pos.y = snake->getPos(snake->getLength() - 1).y;
+    } else if (snake->getPos(snake->getLength() - 2).y - snake->getPos(snake->getLength() - 1).y > 0) {
+        new_pos.x = snake->getPos(snake->getLength() - 1).x;
+        new_pos.y = snake->getPos(snake->getLength() - 1).y - 1;
+    } else if (snake->getPos(snake->getLength() - 2).y - snake->getPos(snake->getLength() - 1).y < 0) {
+        new_pos.x = snake->getPos(snake->getLength() - 1).x;
+        new_pos.y = snake->getPos(snake->getLength() - 1).y + 1;
+    }
+    if (map[new_pos.x][new_pos.y] == '|') {
+        new_pos.x = snake->getPos(snake->getLength() - 1).x;
+        if (map[new_pos.x][new_pos.y - 1] != '-')
+            new_pos.y -= 1;
+        else
+            new_pos.y += 1;
+    } else if (map[new_pos.x][new_pos.y] == '-') {
+        new_pos.y = snake->getPos(snake->getLength() - 1).y;
+        if (map[new_pos.x - 1][new_pos.y] != '-')
+            new_pos.y -= 1;
+        else
+            new_pos.y += 1;
     }
     snake->addElem(new_pos);
-    snake->setLength(snake->getLength() + 1);
 }
 
-int snake_g_ncurses::check_if_fruit(int **map, std::shared_ptr<snake_c> snake, int score)
+std::vector<std::string> snake_g_ncurses::check_if_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
-    if (map[snake->getPos().x][snake->getPos().y] == 6) {
-        put_fruit(map, snake);
-        add_body_to_snake(snake);
-        return (score + 1);
+    if (map[snake->getPos(0).x][snake->getPos(0).y] == 'O') {
+        add_body_to_snake(snake, map);
+        map = put_fruit(map, snake);
     }
-    return (score);
+    return (map);
 }
 
 int snake_g_ncurses::change_speed(int score)

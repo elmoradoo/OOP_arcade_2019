@@ -14,54 +14,51 @@
 #include <string>
 #include <memory>
 #include <ctime>
+#include <vector>
 
 typedef struct pos_s {
     int x;
     int y;
 } pos_t;
 
-typedef struct list_s {
-    pos_t pos;
-    struct list_s *next;
-} list_t;
-
 class snake_c {
     public:
         snake_c();
         snake_c(std::shared_ptr<snake_c>);
         ~snake_c();
-        pos_t getPos() const;
-        int getLength() const;
-        list_t *getList() const;
-        void setHead(pos_t);
-        void setHead(list_t *new_list);
-        std::string getPrevious() const;
+        pos_t getPos(int) const;
+        void setPos(pos_t, int);
+        void setPosx(int x, int index);
+        void setPosy(int, int);
+        int getLength(void) const;
+        std::vector<pos_t> getList(void) const;
+        std::string getPrevious(void) const;
         void addElem(pos_t);
         void setLength(int);
         void setPrevious(const std::string &);
     private:
         int length;
         std::string previous_input;
-        list_t *list;
+        std::vector<pos_t> list;
 };
 
 class snake_g {
     public:
         snake_g();
         virtual ~snake_g() = 0;
-        virtual int render_map(int **) = 0;
-        virtual int check_if_lose(std::shared_ptr<snake_c>, int, int **) = 0;
-        virtual int move_snake(std::shared_ptr<snake_c>, int, int **) = 0;
-        virtual void put_snake_on_map(std::shared_ptr<snake_c>, int **) = 0;
-        virtual int **create_map() = 0;
-        virtual void close_game(int **) = 0;
-        virtual std::shared_ptr<snake_c> init_snake(std::shared_ptr<snake_c>) = 0;
-        virtual void put_fruit(int **, std::shared_ptr<snake_c>) = 0;
-        virtual void add_body_to_snake(std::shared_ptr<snake_c>) = 0;
-        virtual int check_if_fruit(int **, std::shared_ptr<snake_c>, int) = 0;
+        virtual void render_map(std::vector<std::string>) = 0;
+        virtual int check_if_lose(std::shared_ptr<snake_c>, int, std::vector<std::string>) = 0;
+        virtual int move_snake(std::shared_ptr<snake_c>, int, std::vector<std::string>) = 0;
+        virtual std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c>, std::vector<std::string>) = 0;
+        virtual std::vector<std::string> create_map(void) = 0;
+        virtual void close_game(void) = 0;
+        virtual std::shared_ptr<snake_c> init_snake(void) = 0;
+        virtual std::vector<std::string> put_fruit(std::vector<std::string>, std::shared_ptr<snake_c>) = 0;
+        virtual void add_body_to_snake(std::shared_ptr<snake_c>, std::vector<std::string>) = 0;
+        virtual std::vector<std::string> check_if_fruit(std::vector<std::string>, std::shared_ptr<snake_c>) = 0;
         virtual int change_speed(int) = 0;
-        virtual void init_game() = 0;
-        virtual int get_input() = 0;
+        virtual void init_game(void) = 0;
+        virtual int get_input(void) = 0;
     private:
 };
 

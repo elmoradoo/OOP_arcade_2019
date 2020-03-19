@@ -15,73 +15,51 @@ snake_g::~snake_g()
 {
 }
 
-snake_c::snake_c() : length(0), previous_input("LEFT"), list(NULL)
+snake_c::snake_c() : length(0), previous_input("LEFT")
 {
 }
 
 snake_c::~snake_c()
 {
-    list_t *temp = this->list;
-
-    for (int i = 0; i < this->length; i++) {
-        for (int j = 1; j < this->length - i; j++)
-            temp = temp->next;
-        delete (temp->next);
-        temp = this->list;
-    }
-    delete (this->list);
 }
 
-pos_t snake_c::getPos() const
+pos_t snake_c::getPos(int index) const
 {
-    return (this->list->pos);
+    return (this->list.at(index));
 }
 
-int snake_c::getLength() const
+void snake_c::setPos(pos_t pos, int index)
+{
+    this->list[index] = pos;
+}
+
+void snake_c::setPosx(int x, int index)
+{
+    this->list[index].x = x;
+}
+
+void snake_c::setPosy(int y, int index)
+{
+    this->list[index].y = y;
+}
+
+int snake_c::getLength(void) const
 {
     return (this->length);
 }
 
-void snake_c::setLength(int length)
-{
-    this->length = length;
-}
-
-list_t *snake_c::getList() const
+std::vector<pos_t> snake_c::getList(void) const
 {
     return (this->list);
 }
 
-void snake_c::setHead(list_t *new_list)
-{
-    this->list = new_list;
-}
-
-void snake_c::setHead(pos_t pos)
-{
-    list_t *new_list = new list_t;
-
-    new_list->pos.x = pos.x;
-    new_list->pos.y = pos.y;
-    new_list->next = NULL;
-    this->list = new_list;
-}
-
 void snake_c::addElem(pos_t pos)
 {
-    list_t *temp;
-    list_t *new_list = new list_t;
-
-    new_list->pos.x = pos.x;
-    new_list->pos.y = pos.y;
-    new_list->next = NULL;
-    temp = this->list;
-    for (int i = 0; i < this->length - 1; i++)
-        temp = temp->next;
-    temp->next = new_list;
+    this->list.push_back(pos);
+    this->length += 1;
 }
 
-std::string snake_c::getPrevious() const
+std::string snake_c::getPrevious(void) const
 {
     return (this->previous_input);
 }
