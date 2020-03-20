@@ -8,6 +8,7 @@
 #ifndef MAIN_HPP_
 #define MAIN_HPP_
 
+#define _XOPEN_SOURCE_EXTENDED
 #include <memory>
 #include <unistd.h>
 #include <vector>
@@ -17,7 +18,9 @@
 
 #include <sys/ioctl.h>
 #include <sys/utsname.h>
-#include "ngame.hpp"
+#include <ncurses.h>
+#include <stdlib.h>
+#include <locale.h>
 
 
 #endif /* !MAIN_HPP_ */

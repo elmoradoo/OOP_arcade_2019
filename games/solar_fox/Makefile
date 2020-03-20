@@ -9,6 +9,7 @@ NAME	=	solar_fox
 
 SRC	=	src/main.cpp	\
 		src/ngame.cpp	\
+		# src/enemy.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
@@ -17,7 +18,7 @@ CPPFLAGS	=  -I./include -Wall -Wextra -g3
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-	g++ $(CPPFLAGS) -o $(NAME) $(OBJ) -lncurses
+	g++ $(CPPFLAGS) -o $(NAME) $(OBJ) -lncursesw
 
 clean:
 	rm -f *.o
