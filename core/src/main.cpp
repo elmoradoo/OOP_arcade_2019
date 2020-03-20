@@ -9,6 +9,5 @@
 
 int main(int ac, char **av)
 {
-    printf("arcade\n");
     return (0);
 }
