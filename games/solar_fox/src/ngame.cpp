@@ -11,7 +11,8 @@ ngame::ngame()
 {
     ioctl(0, TIOCGWINSZ, &_win);
     std::string str = "";
-
+    bulletT tmp = { 21, 10, 0, true, '-'};
+    _bullets.push_back(tmp);
     for (int i = 0; i != 40; i++)
         str.append("#");
     _map.push_back(str);
@@ -26,7 +27,10 @@ ngame::ngame()
     for (int i = 0; i != 40; i++)
         str += "#";
     _map.push_back(str);
-    // _player.b->player = true;
+    _player.x = 20;
+    _player.y = 10;
+    _player.sp = '>';
+    _player.bulletID = 0; 
 }
 
 ngame::~ngame() {}
@@ -50,22 +54,29 @@ void ngame::loadLevel(std::string level)
 void ngame::addEnem(std::string pos)
 {
     enemT tmp;
+    bulletT tmp2;
     if (pos == "top") {
         tmp.sp = 'v';
         tmp.x = 20;
         tmp.y = 1;
         tmp.heading = true;
+        tmp2.sp = '|';
+        tmp2.head = 'v';
     }
     else if (pos == "bottom") {
         tmp.sp = '^';
         tmp.x = 10;
         tmp.y = 20;
+        tmp2.sp = '|';
+        tmp2.head = '^';
     }
     else if (pos == "left") {
         tmp.sp = '>';
         tmp.x = 1;
         tmp.y = 10;
         tmp.side = true;
+        tmp2.sp = '-';
+        tmp2.head = '>';
     }
     else if (pos == "right") {
         tmp.sp = '<';
@@ -73,7 +84,14 @@ void ngame::addEnem(std::string pos)
         tmp.y = 10;
         tmp.side = true;
         tmp.heading = true;
+        tmp2.sp = '-';
+        tmp2.head = '<';
     }
+    tmp2.x = tmp.x;
+    tmp2.y = tmp.y;
+    tmp2.time = -1;
+    _bullets.push_back(tmp2);
+    tmp.bulletID = _bullets.size() - 1;
     _enem.push_back(tmp);
 }
 
@@ -120,13 +138,58 @@ void ngame::computeEnem()
     }
 }
 
+void ngame::resetBullet(size_t ID)
+{
+    for (size_t i = 0; i < _enem.size(); i++) {
+        if (_enem.at(i).bulletID != ID)
+            continue;
+        _bullets.at(ID).x = _enem.at(i).x;
+        _bullets.at(ID).y = _enem.at(i).y;
+    }
+}
+
+void ngame::computeBullets()
+{
+    for (size_t i = 0; i < _bullets.size(); i++) {
+        if (_bullets.at(i).player == true)
+            continue;
+        if (_bullets.at(i).time >= 4 && _bullets.at(i).time != 6) {
+            _bullets.at(i).time++;
+            continue;
+        }
+        if (_bullets.at(i).time >= 6) {
+            _bullets.at(i).time = 0;
+            resetBullet(i);
+            continue;
+        }
+        if (_bullets.at(i).player == true)
+            continue;
+        if (_bullets.at(i).head == '>')
+            _bullets.at(i).x++;
+        if (_bullets.at(i).head == '<')
+            _bullets.at(i).x--;
+        if (_bullets.at(i).head == '^')
+            _bullets.at(i).y--;
+        if (_bullets.at(i).head == 'v')
+            _bullets.at(i).y++;
+        _bullets.at(i).time++;
+    }
+}
+
 void ngame::refreshBoard()
 {
     if (_map.at(_player.y).at(_player.x) == 'X') {
         _map.at(_player.y).at(_player.x) = ' ';
         _points++;
     }
+    for (size_t i = 0; i < _bullets.size(); i++) {
+        _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = ' ';
+    }
     computeEnem();
+    computeBullets();
+    for (size_t i = 0; i < _bullets.size(); i++) {
+        _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = _bullets.at(i).sp;
+    }
     _map.at(_player.y).at(_player.x) = _player.sp;
 }
 
@@ -136,18 +199,22 @@ void ngame::getInput()
     if (_input == KEY_LEFT && _player.x > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x -= 1;
+        _player.sp = '<';
     }
     if (_input == KEY_RIGHT && _player.x <= 37) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x += 1;
+        _player.sp = '>';
     }
     if (_input == KEY_UP && _player.y > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.y -= 1;
+        _player.sp = '^';
     }
     if (_input == KEY_DOWN && _player.y < 20) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.y += 1;
+        _player.sp = 'v';
     }
 }
 void ngame::display()
