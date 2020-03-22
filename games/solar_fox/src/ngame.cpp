@@ -141,7 +141,7 @@ void ngame::computeEnem()
 void ngame::resetBullet(size_t ID)
 {
     for (size_t i = 0; i < _enem.size(); i++) {
-        if (_enem.at(i).bulletID != ID)
+        if (_enem.at(i).bulletID != ID || _bullets.at(ID).player == true)
             continue;
         _bullets.at(ID).x = _enem.at(i).x;
         _bullets.at(ID).y = _enem.at(i).y;
@@ -151,13 +151,15 @@ void ngame::resetBullet(size_t ID)
 void ngame::computeBullets()
 {
     for (size_t i = 0; i < _bullets.size(); i++) {
+        if (_map.at(_bullets.at(i).y).at(_bullets.at(i).x) == _bullets.at(i).sp)
+            _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = ' ';
         if (_bullets.at(i).player == true)
             continue;
-        if (_bullets.at(i).time >= 4 && _bullets.at(i).time != 6) {
+        if (_bullets.at(i).time >= 13 && _bullets.at(i).time != 16) {
             _bullets.at(i).time++;
             continue;
         }
-        if (_bullets.at(i).time >= 6) {
+        if (_bullets.at(i).time >= 16) {
             _bullets.at(i).time = 0;
             resetBullet(i);
             continue;
@@ -173,7 +175,20 @@ void ngame::computeBullets()
         if (_bullets.at(i).head == 'v')
             _bullets.at(i).y++;
         _bullets.at(i).time++;
+        if (_bullets.at(i).y == _player.y && _bullets.at(i).x == _player.x) {
+            _pv--;
+            _bullets.at(i).time = 0;
+            resetBullet(i);
+        }
+        if (_map.at(_bullets.at(i).y).at(_bullets.at(i).x) == ' ')
+            _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = _bullets.at(i).sp;
     }
+    // if (_bullets.at(0).time >= 13 && _bullets.at(0).time != 16)
+    //         _bullets.at(0).time++;
+    // if (_bullets.at(0).time >= 16) {
+    //         _bullets.at(0).time = 0;
+    //         resetBullet(0);
+    // }
 }
 
 void ngame::refreshBoard()
@@ -182,14 +197,12 @@ void ngame::refreshBoard()
         _map.at(_player.y).at(_player.x) = ' ';
         _points++;
     }
-    for (size_t i = 0; i < _bullets.size(); i++) {
-        _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = ' ';
-    }
+    // for (size_t i = 0; i < _bullets.size(); i++) {
+    //     if (_map.at(_bullets.at(i).y).at(_bullets.at(i).x) != ' ')
+    //     _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = ' ';
+    // }
     computeEnem();
     computeBullets();
-    for (size_t i = 0; i < _bullets.size(); i++) {
-        _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = _bullets.at(i).sp;
-    }
     _map.at(_player.y).at(_player.x) = _player.sp;
 }
 
@@ -220,6 +233,10 @@ void ngame::getInput()
 void ngame::display()
 {
     this->refreshBoard();
+    if (_pv == 0)
+        exit (0);
+    if (_points == _totalPoints)
+        exit (0);
     size_t i = 0;
     std::string formString = "SCORE [";
     for (; i != _map.size(); i++)
@@ -230,10 +247,20 @@ void ngame::display()
     formString.append(std::to_string(_totalPoints));
     formString.append("]");
     mvprintw(i, 0, formString.c_str());
-    std::string debug = std::to_string(_enem.at(0).x);
-    debug += "⛏";
-    debug += std::to_string(_enem.at(0).y);
-    mvprintw(i + 1, 0, debug.c_str());
+    formString.clear();
+    i += 2;
+    if (_pv == 3)
+        formString.append("❤️  ❤️  ❤️");
+    if (_pv == 2)
+        formString.append("❤️  ❤️");
+    if (_pv == 1)
+        formString.append("❤️");
+    formString.append(std::to_string(_pv));
+    mvprintw(i, 0, formString.c_str());
+    // std::string debug = std::to_string(_enem.at(0).x);
+    // debug += "|";
+    // debug += std::to_string(_enem.at(0).y);
+    // mvprintw(i + 1, 0, debug.c_str());
 
     // mvprintw(0, 0, std::to_string(_win_col).c_str());
     // mvprintw(1, 0, std::to_string(_win_row).c_str());

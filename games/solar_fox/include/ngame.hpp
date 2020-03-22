@@ -69,6 +69,7 @@ private:
     size_t _level = 0;
     size_t _points = 0;
     size_t _totalPoints = 10;
+    size_t _pv = 3;
     std::vector<enemT> _enem;
     std::vector<bulletT> _bullets;
     std::vector<std::string> _map;
