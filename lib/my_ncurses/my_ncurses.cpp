@@ -5,9 +5,31 @@
 ** my_ncurses
 */
 
+#include <iostream>
 #include "my_ncurses.hpp"
 
-void myNcurses::solarRenderGame()
+ILib *lib = nullptr;
+
+myNcurses::myNcurses()
 {
-    
+
+}
+void myNcurses::print()
+{
+    std::cout << "ncusrses" << std::endl;
+}
+
+__attribute__((constructor)) void load_lib()
+{
+    lib = new myNcurses();
+}
+
+__attribute__((destructor)) void unload_lib()
+{
+    delete lib;
+}
+
+extern "C" ILib *entry_point()
+{
+    return (lib);
 }

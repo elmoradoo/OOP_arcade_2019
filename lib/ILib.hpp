@@ -11,8 +11,7 @@
 class ILib {
     public:
         virtual ~ILib() = 0;
-        virtual void solarRenderGame() = 0;
-        
+        virtual void print() = 0;
     protected:
     private:
 };
