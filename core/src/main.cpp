@@ -6,7 +6,12 @@
 */
 
 #include <stdio.h>
-
+//
+// dlopen 
+// dlsym
+// dlclose
+// dlerror
+//
 int main(int ac, char **av)
 {
     if (ac != 2)
