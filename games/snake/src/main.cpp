@@ -20,7 +20,7 @@ int snake_game(snake_g *game)
         timeout(speed);
         if (game->move_snake(snake, input, map) == -1)
             break;
-        if (snake->getPos(0).x == 0 || snake->getPos(0).x == 9 || snake->getPos(0).y == 0 || snake->getPos(0).y == 39)
+        if (snake->getPos(0).x == 0 || snake->getPos(0).x == 11 || snake->getPos(0).y == 0 || snake->getPos(0).y == 40)
             break;
         map = game->check_if_fruit(map, snake);
         map = game->put_snake_on_map(snake, map);
@@ -36,7 +36,6 @@ int main(void)
     int score = 0;
     snake_g *game = new snake_g_ncurses;
 
-    std::srand(std::time(nullptr));
     score = snake_game(game);
     if (score == -1) {
         delete (game);

@@ -18,9 +18,14 @@ snake_g_ncurses::~snake_g_ncurses()
 void snake_g_ncurses::render_map(std::vector<std::string> map)
 {
     unsigned int i = 0;
+    struct winsize w;
 
+    ioctl(0, TIOCGWINSZ, &w);
+    clear();
+    if (w.ws_row < 10 || w.ws_col < 40)
+        mvprintw(w.ws_row / 2, w.ws_col / 2 - 9, "The map is too big");
     for (i = 0; i < map.size(); i++)
-        mvprintw(i, 0, map[i].c_str());
+        mvprintw(w.ws_row / 2 + i - 6, w.ws_col / 2 - 21, map[i].c_str());
     refresh();
 }
 
@@ -202,6 +207,7 @@ int snake_g_ncurses::get_input()
 
 void snake_g_ncurses::init_game()
 {
+    std::srand(std::time(nullptr));
     initscr();
     noecho();
     curs_set(FALSE);
