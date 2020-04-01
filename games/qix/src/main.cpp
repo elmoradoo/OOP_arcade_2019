@@ -6,19 +6,21 @@
 */
 
 #include "qix.hpp"
+#include "my_ncurses.hpp"
 
 void qix_game(qix game)
 {
     struct winsize w;
     int input = 0;
+    // myNcurses m;
 
     while (1) {
         ioctl(0, TIOCGWINSZ, &w);   
         erase();
-        game.ennemiesmove();
+        game.ennemiesMove();
         game.display();
         refresh();
-        input = game.interprete_input(getch());
+        input = game.interpreteInput(getch());
         if (input == -1)
             break;
     }

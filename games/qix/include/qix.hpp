@@ -45,20 +45,32 @@ struct counter {
 class qix {
     public:
         qix();
-        void display();
-        int interprete_input(int input);
+        int interpreteInput(int input);
         void addEnnemies(int x, int y, std::string s);
-        void ennemiesturn(int x, std::size_t i);
-        void addboss();
-        void ennemiesmove();
-        void setbackground();
-        void setgameover();
-        void setfirework();
-        bool checkbosspos(int nbx, int nby);
-        void bossmovement();
-        void changemap();
-        int countdistance(player tmp, bool t);
-        void addnewborder(std::size_t i, std::size_t j);
+        void ennemiesTurn(int x, std::size_t i);
+        void addBoss();
+        void ennemiesMove();
+        void setBackground();
+        void setGameover();
+        void setFirework();
+        bool checkBossPos(int nbx, int nby);
+        void bossMovement();
+        void changeMap();
+        int countDistance(player tmp, bool t);
+        void addNewBorder(std::size_t i, std::size_t j);
+        void tmpplayerMove();
+        int getScore() const;
+        void incScore();
+        std::vector<std::string> getGameover() const;
+        std::vector<std::string> getMap() const;
+        std::vector<std::string> getBackground() const;
+        player getPlayer() const;
+        boss getFirework();
+        boss getBoss() const;
+        player getTmpplayer() const;
+        int getTmptime() const;
+        std::vector<player> getEnnemies() const;
+        void display();
     private:
         std::vector<std::string> map;
         std::vector<std::string> background;

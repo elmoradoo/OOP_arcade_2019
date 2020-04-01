@@ -9,10 +9,11 @@ NAME	=	qix
 
 SRC	=	src/main.cpp	\
 		src/qix.cpp	\
+		# ../../lib/my_ncurses/my_ncurses.cpp\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	= -I./include -I./include/Component  -Wall -Wextra
+CPPFLAGS	= -I./include -I../../lib/my_ncurses/include -I../../core/include  -Wall -Wextra -g3
 
 all: $(NAME)
 

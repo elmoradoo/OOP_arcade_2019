@@ -9,11 +9,12 @@ NAME	=	arcade
 
 DIR 	= 	src/
 
-SRC		=	$(DIR)main.cpp
+SRC		=	$(DIR)main.cpp	\
+			$(DIR)core.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=	-Wall -Wextra -I./include
+CPPFLAGS	=	-Wall -Wextra -I./include -I../games/qix/include
 
 all:	$(NAME)
 $(NAME):	$(OBJ)

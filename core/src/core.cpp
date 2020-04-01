@@ -7,16 +7,24 @@
 
 #include <dlfcn.h>
 #include "../../lib/ILib.hpp"
+#include <iostream>
+
+typedef ILib *(*entry_point)();
 
 int getLib(char *lib)
 {
-    void *handle = dlopen(lib, RTLD_LAZY);
-    ILib (*entry)(void);
+    void *handle = dlopen("lib_arcade_ncurses.so", RTLD_LAZY);
+    entry_point entry;
 
+    std::cout << "salut" << std::endl;
     if (handle == nullptr)
         return (-1);
-    *(ILib**)(&entry) = dlsym(handle, "entry_point");
-    ILib Mourad = entry();
+    void *tmp = dlsym(handle, "entry_point");
+    entry = (entry_point)tmp;
+    ILib *Mourad = entry();
+    std::cout << "salut" << std::endl;
+    Mourad->print();
+    return (0);
 }
 
 
