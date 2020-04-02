@@ -13,10 +13,12 @@ typedef ILib *(*entry_point)();
 
 int getLib(char *lib)
 {
-    void *handle = dlopen("lib_arcade_ncurses.so", RTLD_LAZY);
+    std::string filename(lib);
+    std::string s = "./" + filename;
+    void *handle = dlopen(s.c_str(), RTLD_LAZY);
     entry_point entry;
 
-    std::cout << "salut" << std::endl;
+    std::cout << "salut [" << s << "]" << std::endl;
     if (handle == nullptr)
         return (-1);
     void *tmp = dlsym(handle, "entry_point");
