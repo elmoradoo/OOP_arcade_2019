@@ -20,6 +20,7 @@ class dlHandler {
         dlHandler() = default;
         ~dlHandler() = default;
         void loadLib(std::string path);
+        void unLoadLib();
         ILib *getLib() const;
 };
 

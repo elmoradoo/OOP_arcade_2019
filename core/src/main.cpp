@@ -13,6 +13,8 @@
 //
 
 #include "dlHandler.hpp"
+#include "../../lib/ILib.hpp"
+
 
 int main(int ac, char **av)
 {
@@ -20,6 +22,10 @@ int main(int ac, char **av)
     if (libPath == "nullptr")
         return (84);
     dlHandler hdl;
+    std::cout << "ok" << std::endl;
     hdl.loadLib(libPath);
+    ILib *lib = hdl.getLib();
+    lib->print();
+    hdl.unLoadLib();
     return (0);
 }

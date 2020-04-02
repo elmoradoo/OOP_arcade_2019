@@ -28,13 +28,12 @@ void myNcurses::print()
 __attribute__((constructor)) void load_lib()
 {
     lib = new myNcurses();
-    std::cout << "YE" << std::endl;
 }
 
-__attribute__((destructor)) void unload_lib()
-{
-    delete lib;
-}
+// __attribute__((destructor)) void unload_lib()
+// {
+    
+// }
 
 extern "C" ILib *entry_point()
 {

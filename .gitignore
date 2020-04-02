@@ -1,0 +1,8 @@
+*.o
+*.so
+*.json
+qix
+solar_fox
+snake
+arcade
+bootstrap/*

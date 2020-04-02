@@ -12,11 +12,16 @@ typedef ILib *(*entry_point)();
 void dlHandler::loadLib(std::string path)
 {
     if (_handle != nullptr)
-        dlclose(_handle);
+        unLoadLib();
     path = "./" + path;
     _handle = dlopen(path.c_str(), RTLD_LAZY);
     if (_handle == nullptr)
         std::cerr << dlerror() << std::endl;
+}
+
+void dlHandler::unLoadLib()
+{
+    dlclose(_handle);
 }
 
 ILib *dlHandler::getLib() const
