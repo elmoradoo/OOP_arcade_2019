@@ -11,12 +11,14 @@ SRC	= 	my_ncurses.cpp	\
 
 OBJ	= 	$(SRC:.cpp=.o)
 
-CPPFLAGS	=	-W -Wall -Wextra
+CPPFLAGS	=	-W -Wall -Wextra -fPIC
+
+LDFLAGS	=	-lncurses
 
 all: $(LIBNAME)
 
 $(LIBNAME): $(OBJ)
-	g++ $(SRC) -lncurses -shared -fPIC -o $(LIBNAME)
+	g++ -shared $(OBJ) -o $(LIBNAME) $(LDFLAGS)
 
 clean:
 	rm -rf $(OBJ)
