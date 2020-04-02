@@ -5,7 +5,7 @@
 ## Makefile core
 ##
 
-NAME	=	arcade
+NAME	=	../arcade
 
 DIR 	= 	src/
 
@@ -19,13 +19,13 @@ CPPFLAGS	=	-Wall -Wextra -I./include -I../games/qix/include
 
 all:	$(NAME)
 $(NAME):	$(OBJ)
-	g++ -o ../$(NAME) $(OBJ) -ldl
+	g++ -o $(NAME) $(OBJ) -ldl
 
 clean:
 	rm -f $(OBJ)
 
 fclean:	clean
-	rm -f ../$(NAME)
+	rm -f $(NAME)
 
 re:	fclean all
 

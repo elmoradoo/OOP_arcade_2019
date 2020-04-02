@@ -5,7 +5,7 @@
 ## ohnomason.makefile
 ##
 
-LIBNAME 	= 	lib_arcade_ncurses.so
+LIBNAME 	= 	../../lib_arcade_ncurses.so
 
 SRC	= 	my_ncurses.cpp	\
 

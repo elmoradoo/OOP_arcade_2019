@@ -22,13 +22,15 @@ $(GAME):
 	echo "Build $(GAMESRC)"
 
 graphicals:
-	echo "graphicals"
+	make -C ./lib/my_ncurses
 
 clean:
 	make clean -C  ./core
+	make clean -C ./lib/my_ncurses
 
 fclean:
 	make fclean -C  ./core
+	make fclean -C ./lib/my_ncurses
 
 re: fclean all
 
