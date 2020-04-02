@@ -12,12 +12,14 @@
 // dlerror
 //
 
-int getLib(char *lib);
+#include "dlHandler.hpp"
 
 int main(int ac, char **av)
 {
-    if (ac != 2)
+    std::string libPath = ac == 2 ? av[1] : "nullptr";
+    if (libPath == "nullptr")
         return (84);
-    getLib(av[1]);
+    dlHandler hdl;
+    hdl.loadLib(libPath);
     return (0);
 }

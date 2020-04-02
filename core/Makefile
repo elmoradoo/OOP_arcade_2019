@@ -10,7 +10,8 @@ NAME	=	arcade
 DIR 	= 	src/
 
 SRC		=	$(DIR)main.cpp	\
-			$(DIR)core.cpp
+			$(DIR)dlHandler.cpp	\
+			# $(DIR)core.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 

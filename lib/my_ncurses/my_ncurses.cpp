@@ -14,6 +14,12 @@ myNcurses::myNcurses()
 {
 
 }
+
+myNcurses::~myNcurses()
+{
+
+}
+
 void myNcurses::print()
 {
     std::cout << "ncusrses" << std::endl;
@@ -22,6 +28,7 @@ void myNcurses::print()
 __attribute__((constructor)) void load_lib()
 {
     lib = new myNcurses();
+    std::cout << "YE" << std::endl;
 }
 
 __attribute__((destructor)) void unload_lib()

@@ -5,7 +5,6 @@
 ** core
 */
 
-#include <dlfcn.h>
 #include "../../lib/ILib.hpp"
 #include <iostream>
 
@@ -18,9 +17,11 @@ int getLib(char *lib)
     void *handle = dlopen(s.c_str(), RTLD_LAZY);
     entry_point entry;
 
-    std::cout << "salut [" << s << "]" << std::endl;
-    if (handle == nullptr)
+    std::cout << "salut [" << s.c_str() << "]" << std::endl;
+    if (handle == nullptr) {
+        fputs(dlerror(), stderr);
         return (-1);
+    }
     void *tmp = dlsym(handle, "entry_point");
     entry = (entry_point)tmp;
     ILib *Mourad = entry();
