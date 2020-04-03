@@ -5,20 +5,19 @@
 ## Compilation
 ##
 
-NAME	=	snake
+NAME	=	../lib_arcade_snake.so
 
-SRC	=	src/main.cpp	\
-		src/snake_ncurses.cpp	\
+SRC	=	src/snake.cpp	\
 		src/snake_class.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=  -I./include -Wall -Wextra
+CPPFLAGS	=  -I./include -I../../lib/ -Wall -Wextra -fPIC
 
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-	g++ $(CPPFLAGS) -o $(NAME) $(OBJ) -lncurses
+	g++ --shared -o $(NAME) $(OBJ)
 
 clean:
 	rm -f src/*.o

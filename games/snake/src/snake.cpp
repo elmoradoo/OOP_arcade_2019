@@ -5,31 +5,47 @@
 ** snake
 */
 
-#include "ncurses.hpp"
+#include "snake.hpp"
 
-snake_g_ncurses::snake_g_ncurses()
+int snake_game(ILib* lib)
 {
+    int input = 0;
+    int speed = 750;
+    std::shared_ptr<snake_c> snake = init_snake();
+    std::vector<std::string> map = create_map();
+
+    map = put_fruit(map, snake);
+    while ((input = get_input(lib)) != 'q') {
+        timeout(speed);
+        if (move_snake(snake, input, map) == -1)
+            break;
+        if (snake->getPos(0).x == 0 || snake->getPos(0).x == 11 || snake->getPos(0).y == 0 || snake->getPos(0).y == 40)
+            break;
+        map = check_if_fruit(map, snake);
+        map = put_snake_on_map(snake, map);
+        render_map(map, snake, lib);
+        speed = change_speed(snake->getLength() - 3);
+    }
+    return (snake->getLength() - 3);
 }
 
-snake_g_ncurses::~snake_g_ncurses()
-{
-}
-
-void snake_g_ncurses::render_map(std::vector<std::string> map)
+void render_map(std::vector<std::string> map, std::shared_ptr<snake_c> snake, ILib *lib)
 {
     unsigned int i = 0;
     struct winsize w;
 
     ioctl(0, TIOCGWINSZ, &w);
-    clear();
+    lib->erasew();
     if (w.ws_row < 10 || w.ws_col < 40)
-        mvprintw(w.ws_row / 2, w.ws_col / 2 - 9, "The map is too big");
+        lib->print(w.ws_row / 2, w.ws_col / 2 - 9, "The map is too big");
     for (i = 0; i < map.size(); i++)
-        mvprintw(w.ws_row / 2 + i - 6, w.ws_col / 2 - 21, map[i].c_str());
-    refresh();
+        lib->print(w.ws_row / 2 + i - 6, w.ws_col / 2 - 21, map[i].c_str());
+    lib->print(w.ws_row / 2 + map.size() + 5, w.ws_col / 2, "SCORE: ");
+    lib->print(w.ws_row / 2 + map.size() + 13, w.ws_col / 2, std::to_string(snake->getLength() - 3));
+    lib->refreshw();
 }
 
-int snake_g_ncurses::check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
+int check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
 {
     pos_t pos_0 = snake->getPos(0);
     std::string previous = snake->getPrevious();
@@ -45,7 +61,7 @@ int snake_g_ncurses::check_if_lose(std::shared_ptr<snake_c> snake, int input, st
     return (0);
 }
 
-int snake_g_ncurses::move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
+int move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
 {
     pos_t previous_pos = snake->getPos(0);
     pos_t temp;
@@ -83,7 +99,7 @@ int snake_g_ncurses::move_snake(std::shared_ptr<snake_c> snake, int input, std::
     return (0);
 }
 
-std::vector<std::string> snake_g_ncurses::put_snake_on_map(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
+std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
 {
     for (unsigned int i = 0; i < map.size(); i++) {
         for (unsigned int j = 0; j < map[i].size(); j++) {
@@ -96,7 +112,7 @@ std::vector<std::string> snake_g_ncurses::put_snake_on_map(std::shared_ptr<snake
     return (map);
 }
 
-std::vector<std::string> snake_g_ncurses::create_map(void)
+std::vector<std::string> create_map(void)
 {
     std::vector<std::string> map;
 
@@ -107,12 +123,7 @@ std::vector<std::string> snake_g_ncurses::create_map(void)
     return (map);
 }
 
-void snake_g_ncurses::close_game(void)
-{
-    endwin();
-}
-
-std::shared_ptr<snake_c> snake_g_ncurses::init_snake(void)
+std::shared_ptr<snake_c> init_snake(void)
 {
     std::shared_ptr<snake_c> snake(new snake_c);
     pos_t pos = {5, 19};
@@ -125,7 +136,7 @@ std::shared_ptr<snake_c> snake_g_ncurses::init_snake(void)
     return (snake);
 }
 
-std::vector<std::string> snake_g_ncurses::put_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
+std::vector<std::string> put_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
     pos_t fruit_pos;
 
@@ -143,7 +154,7 @@ std::vector<std::string> snake_g_ncurses::put_fruit(std::vector<std::string> map
     return (map);
 }
 
-void snake_g_ncurses::add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
+void add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
 {
     pos_t new_pos;
 
@@ -176,7 +187,7 @@ void snake_g_ncurses::add_body_to_snake(std::shared_ptr<snake_c> snake, std::vec
     snake->addElem(new_pos);
 }
 
-std::vector<std::string> snake_g_ncurses::check_if_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
+std::vector<std::string> check_if_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
     if (map[snake->getPos(0).x][snake->getPos(0).y] == 'O') {
         add_body_to_snake(snake, map);
@@ -185,7 +196,7 @@ std::vector<std::string> snake_g_ncurses::check_if_fruit(std::vector<std::string
     return (map);
 }
 
-int snake_g_ncurses::change_speed(int score)
+int change_speed(int score)
 {
     if (score >= 20)
         return (650);
@@ -200,17 +211,7 @@ int snake_g_ncurses::change_speed(int score)
     return (750);
 }
 
-int snake_g_ncurses::get_input()
+int get_input(ILib *lib)
 {
-    return (getch());
-}
-
-void snake_g_ncurses::init_game()
-{
-    std::srand(std::time(nullptr));
-    initscr();
-    noecho();
-    curs_set(FALSE);
-    timeout(1);
-    keypad(stdscr, TRUE);
+    return (lib->getchw());
 }

@@ -15,6 +15,9 @@
 #include <memory>
 #include <ctime>
 #include <vector>
+#include <ncurses.h>
+#include <sys/ioctl.h>
+#include "ILib.hpp"
 
 typedef struct pos_s {
     int x;
@@ -42,26 +45,17 @@ class snake_c {
         std::vector<pos_t> list;
 };
 
-class snake_g {
-    public:
-        snake_g();
-        virtual ~snake_g() = 0;
-        virtual void render_map(std::vector<std::string>) = 0;
-        virtual int check_if_lose(std::shared_ptr<snake_c>, int, std::vector<std::string>) = 0;
-        virtual int move_snake(std::shared_ptr<snake_c>, int, std::vector<std::string>) = 0;
-        virtual std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c>, std::vector<std::string>) = 0;
-        virtual std::vector<std::string> create_map(void) = 0;
-        virtual void close_game(void) = 0;
-        virtual std::shared_ptr<snake_c> init_snake(void) = 0;
-        virtual std::vector<std::string> put_fruit(std::vector<std::string>, std::shared_ptr<snake_c>) = 0;
-        virtual void add_body_to_snake(std::shared_ptr<snake_c>, std::vector<std::string>) = 0;
-        virtual std::vector<std::string> check_if_fruit(std::vector<std::string>, std::shared_ptr<snake_c>) = 0;
-        virtual int change_speed(int) = 0;
-        virtual void init_game(void) = 0;
-        virtual int get_input(void) = 0;
-    private:
-};
-
-int snake_game();
+int snake_game(ILib* lib);
+void render_map(std::vector<std::string>, std::shared_ptr<snake_c>, ILib *);
+int check_if_lose(std::shared_ptr<snake_c>, int, std::vector<std::string>);
+int move_snake(std::shared_ptr<snake_c>, int, std::vector<std::string>);
+std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c>, std::vector<std::string>);
+std::vector<std::string> create_map(void);
+std::shared_ptr<snake_c> init_snake(void);
+std::vector<std::string> put_fruit(std::vector<std::string>, std::shared_ptr<snake_c>);
+void add_body_to_snake(std::shared_ptr<snake_c>, std::vector<std::string>);
+std::vector<std::string> check_if_fruit(std::vector<std::string>, std::shared_ptr<snake_c>);
+int change_speed(int);
+int get_input(ILib *);
 
 #endif /* !SNAKE_HPP_ */
