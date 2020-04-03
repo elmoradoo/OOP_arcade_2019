@@ -10,8 +10,6 @@
 
 #include <vector>
 #include <string>
-#include <ncurses.h>
-#include <sys/ioctl.h>
 #include <sys/utsname.h>
 #include <algorithm>
 #include <fstream>
