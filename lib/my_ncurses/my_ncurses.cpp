@@ -50,6 +50,11 @@ void myNcurses::print(int y, int x, const std::string &s) const
     mvprintw(y, x, s.c_str());
 }
 
+int myNcurses::getchw() const
+{
+    return (getch());
+}
+
 __attribute__((constructor)) void load_lib()
 {
     lib = new myNcurses();
