@@ -11,7 +11,7 @@
 #include <iostream>
 #include <dlfcn.h>
 #include "ILib.hpp"
-
+#include "IGame.hpp"
 
 class dlHandler {
     private:
@@ -24,4 +24,14 @@ class dlHandler {
         ILib *getLib() const;
 };
 
+class gameHandler {
+    private:
+        void *_handle = nullptr;
+    public:
+        gameHandler() = default;
+        ~gameHandler() = default;
+        void loadLib(std::string path);
+        void unLoadLib();
+        IGame *getLib() const;
+};
 #endif /* !DLHANDLER_HPP_ */

@@ -15,22 +15,30 @@ menu::menu(/* args */)
 
 void menu::loop(ILib *lib)
 {
+    int input = 0;
     while (1) {
         lib->erasew();
         Display(lib);
         lib->refreshw();
-        if (interpreteInput(lib->getchw()) == -1)
+        input = interpreteInput(lib->getchw());
+        if (input == 'f' && this->posy == 0)
+            exit (0); // START NIGGER
+        else if (input == 'f' && this->posy == 1)
+            exit (0); // START QIX
+        else if (input == 'f' && this->posy == 2)
+            exit(0); // START SOLAR FUCK
+        if (input == -1)
             break;
     }
 }
 
 void menu::Display(ILib * lib) const
 {
-    lib->print(7, 10, "GAMES:");
+    lib->print(7, 10, std::to_string(this->posx));
     lib->print(10, 10, "nibbler");
     lib->print(12, 10, "Qix");
     lib->print(14, 10, "Solar Fox");
-    lib->print(7, 30, "LIBS:");
+    lib->print(7, 30, std::to_string(this->posy));
     lib->print(10, 30, "ncurse");
     lib->print(12, 30, "sfml");
     lib->print(14, 30, "open gl");
@@ -52,6 +60,8 @@ int menu::interpreteInput(int input)
         posy--;
     if (input == 'e')
         return (-1);
+    if (input == 'f')
+        return ('f');
     return (0);
 }
 

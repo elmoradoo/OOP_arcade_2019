@@ -10,8 +10,6 @@
 
 #include <vector>
 #include <string>
-#include <ncurses.h>
-#include <sys/ioctl.h>
 #include <sys/utsname.h>
 #include <algorithm>
 #include <fstream>
@@ -20,6 +18,7 @@
 #include <ctime>
 #include <unistd.h>
 #include "ILib.hpp"
+#include "IGame.hpp"
 
 struct player {
     std::string c = "0";
@@ -43,7 +42,7 @@ struct counter {
     int nbt;
 };
 
-class qix {
+class qix : public IGame{
     public:
         qix();
         int interpreteInput(int input);
