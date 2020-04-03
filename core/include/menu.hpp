@@ -23,7 +23,7 @@ class menu {
         menu(/* args */);
         ~menu();
         void Display(ILib * lib) const;
-        void loop(ILib *lib);
+        std::string loop(ILib *lib);
         int interpreteInput(int input);
         int getPosx() const;
         int getPosy() const;

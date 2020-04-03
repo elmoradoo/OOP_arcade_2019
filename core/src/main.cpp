@@ -16,10 +16,10 @@
 #include "menu.hpp"
 #include "ILib.hpp"
 
-
 int main(int ac, char **av)
 {
     std::string libPath = ac == 2 ? av[1] : "nullptr";
+    std::string game;
     if (libPath == "nullptr")
         return (84);
     dlHandler hdl;
@@ -27,7 +27,13 @@ int main(int ac, char **av)
     hdl.loadLib(libPath);
     ILib *lib = hdl.getLib();
     menu ste;
-    ste.loop(lib);
-    hdl.unLoadLib();
+    game = ste.loop(lib);
+    game = "./games/" + game;
+    // hdl.unLoadLib();
+    gameHandler gHandl;
+    gHandl.loadLib(game);
+    IGame *gm;
+    gm = gHandl.getLib();
+    gm->loop(lib);
     return (0);
 }

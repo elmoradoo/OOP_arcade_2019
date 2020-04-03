@@ -19,7 +19,9 @@ $(CORE):
 games: $(GAME)
 
 $(GAME):
-	echo "Build $(GAMESRC)"
+	make -C ./games/qix
+	make -C ./games/solar_fox
+	make -C ./games/snake
 
 graphicals:
 	make -C ./lib/my_ncurses

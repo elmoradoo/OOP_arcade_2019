@@ -12,10 +12,11 @@ DIR 	= 	src/
 SRC		=	$(DIR)main.cpp	\
 			$(DIR)dlHandler.cpp	\
 			$(DIR)menu.cpp	\
+			$(DIR)gameHandler.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=	-Wall -Wextra -I./include -I../lib/
+CPPFLAGS	=	-Wall -Wextra -I./include -I../lib/ -I../games/
 
 all:	$(NAME)
 $(NAME):	$(OBJ)

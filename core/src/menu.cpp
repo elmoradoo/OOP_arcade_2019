@@ -13,7 +13,7 @@ menu::menu(/* args */)
     posx = 0;
 }
 
-void menu::loop(ILib *lib)
+std::string menu::loop(ILib *lib)
 {
     int input = 0;
     while (1) {
@@ -21,15 +21,18 @@ void menu::loop(ILib *lib)
         Display(lib);
         lib->refreshw();
         input = interpreteInput(lib->getchw());
-        if (input == 'f' && this->posy == 0)
-            exit (0); // START NIGGER
-        else if (input == 'f' && this->posy == 1)
-            exit (0); // START QIX
-        else if (input == 'f' && this->posy == 2)
-            exit(0); // START SOLAR FUCK
+        if (input == 'f') {
+            if (this->posy == 0) // IF NIBBLER
+                return ("lib_arcade_nibbler.so");
+            else if (this->posy == 1) // IF QIX
+                return("lib_arcade_qix.so");
+            else if (this->posy == 2) // IF SOLARFOX
+                return ("lib_arcade_solarfox.so");
+        }
         if (input == -1)
             break;
     }
+    return ("nothing");
 }
 
 void menu::Display(ILib * lib) const
