@@ -1,1 +1,10 @@
-*
+*.o
+*.so
+*.json
+*.hpp
+qix
+solar_fox
+*.cpp
+snake
+arcade
+bootstrap/*
