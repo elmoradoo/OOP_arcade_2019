@@ -10,21 +10,10 @@
 
 // #include <vector>
 #include <string>
-#include <ncurses.h>
 #include "ILib.hpp"
-#include <sys/ioctl.h>
 #include <memory>
 #include <iostream>
-#include <dlfcn.h>
-// #include <sys/utsname.h>
-// #include <algorithm>
-// #include <fstream>
-// #include <cstdlib>
-// #include <iostream>
-// #include <ctime>
-// #include <unistd.h>
 
-void qixRenderGame(qix &q);
 
 class menu {
     private:
@@ -33,7 +22,8 @@ class menu {
     public:
         menu(/* args */);
         ~menu();
-        void Display() const;
+        void Display(ILib * lib) const;
+        void loop(ILib *lib);
         int interpreteInput(int input);
         int getPosx() const;
         int getPosy() const;
