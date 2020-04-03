@@ -14,7 +14,7 @@ void qix::loop(ILib *lib)
         ennemiesMove();
         display(lib);
         lib->refreshw();
-        if (interpreteInput(getch()) == -1)
+        if (interpreteInput(lib->getchw()) == -1)
             break;
     }
 }
