@@ -7,6 +7,19 @@
 
 #include "qix.hpp"
 
+void qix::loop(ILib *lib)
+{
+    while (1) { 
+        lib->erasew();
+        ennemiesMove();
+        display(lib);
+        lib->refreshw();
+        if (interpreteInput(getch()) == -1)
+            break;
+    }
+}
+
+
 void qix::ennemiesTurn(int x, std::size_t i)
 {
     if (x != 0)
@@ -254,45 +267,45 @@ void qix::tmpplayerMove()
     }
 }
 
-void printPixelArt(char c, std::size_t i, std::size_t j)
-{
-    std::string s = "";
-    s += c;
+// void printPixelArt(char c, std::size_t i, std::size_t j)
+// {
+//     std::string s = "";
+//     s += c;
 
-    if (c == '1') {
-        attron(COLOR_PAIR(2));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(2));
-    } else if (c == '3') {
-        attron(COLOR_PAIR(4));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(4));
-    } else if (c == '0') {
-        attron(COLOR_PAIR(7));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(7));
-    } else if (c == '2') {
-        attron(COLOR_PAIR(6));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(6));
-    } else if (c == '5') {
-        attron(COLOR_PAIR(3));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(3));
-    } else if (c == '7') {
-        attron(COLOR_PAIR(5));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(5));
-    } else if (c == '4') {
-        attron(COLOR_PAIR(8));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(8));
-    } else if (c == '6') {
-        attron(COLOR_PAIR(9));
-        mvprintw(i, j, s.c_str()); 
-        attroff(COLOR_PAIR(9));
-    }
-}
+//     if (c == '1') {
+//         attron(COLOR_PAIR(2));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(2));
+//     } else if (c == '3') {
+//         attron(COLOR_PAIR(4));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(4));
+//     } else if (c == '0') {
+//         attron(COLOR_PAIR(7));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(7));
+//     } else if (c == '2') {
+//         attron(COLOR_PAIR(6));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(6));
+//     } else if (c == '5') {
+//         attron(COLOR_PAIR(3));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(3));
+//     } else if (c == '7') {
+//         attron(COLOR_PAIR(5));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(5));
+//     } else if (c == '4') {
+//         attron(COLOR_PAIR(8));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(8));
+//     } else if (c == '6') {
+//         attron(COLOR_PAIR(9));
+//         mvprintw(i, j, s.c_str()); 
+//         attroff(COLOR_PAIR(9));
+//     }
+// }
 
 void qix::incScore()
 {
@@ -350,49 +363,54 @@ std::vector<player> qix::getEnnemies() const
     return (ennemies);
 }
 
-void qix::display()
+void qix::display(ILib *lib)
 {
+    std::string s = "";
+
     if (score == -1) {
         for (std::size_t i = 0; i != gameover.size(); i++)
-            for (std::size_t j = 0; j != gameover[i].length(); j++)
-                printPixelArt(gameover[i][j], 10 + i, 50 + j);
-        mvprintw(25, 110, "GAME OVER!");
-        mvprintw(26, 110, "exit : E");
+            for (std::size_t j = 0; j != gameover[i].length(); j++) {
+                s = gameover[i][j];
+                lib->print(10 + i, 50 + j, s.c_str());
+            }
+        lib->print(25, 110, "GAME OVER!");
+        lib->print(26, 110, "exit : E");
         return;
     }
     if ((score * 100 / 5000) >= 75) {
         for (std::size_t i = 0; i != firework.animeboss[firework.nb].size(); i++)
-            mvprintw(i , 0, firework.animeboss[firework.nb][i].c_str());
-        mvprintw(25, 110, "WELL PLAYED!");
+            lib->print(i , 0, firework.animeboss[firework.nb][i].c_str());
+        lib->print(25, 110, "WELL PLAYED!");
         firework.nb++;
         return;
     }
     tmpplayerMove();
     for (std::size_t i = 0; i != map.size(); i++)
-        mvprintw(i, 0, map[i].c_str());
-    mvprintw(p.y, p.x, p.c.c_str());
+        lib->print(i, 0, map[i].c_str());
+    lib->print(p.y, p.x, p.c.c_str());
     attron(COLOR_PAIR(1));
     if (tmptime > 20)
-        mvprintw(tmpplayer.y, tmpplayer.x, "X");
+        lib->print(tmpplayer.y, tmpplayer.x, "X");
     for (std::size_t i = 0; i != ennemies.size(); i++)
-        mvprintw(ennemies[i].y, ennemies[i].x, ennemies[i].c.c_str());
+        lib->print(ennemies[i].y, ennemies[i].x, ennemies[i].c.c_str());
     attroff(COLOR_PAIR(1));
     for (std::size_t i = 0; i != b.animeboss[b.nb].size(); i++)
-        mvprintw(i + b.y, 0 + b.x, b.animeboss[b.nb][i].c_str());
+        lib->print(i + b.y, 0 + b.x, b.animeboss[b.nb][i].c_str());
     bossMovement();
     for (std::size_t i = 0; i != background.size(); i++)
         for (std::size_t j = 0; j != background[i].length(); j++)
             if (map[i][j] == 'a') {
                 score++;
-                printPixelArt(background[i][j], i ,j);
+                s = background[i][j];
+                lib->print(i ,j, s.c_str());
             }
-    mvprintw(25, 110, "CLAIMED :    %%");
-    mvprintw(26, 110, "exit    :    E");
-    mvprintw(27, 110, "up      :    Z");
-    mvprintw(28, 110, "down    :    S");
-    mvprintw(29, 110, "left    :    Q");
-    mvprintw(30, 110, "right   :    D");
-    mvprintw(25, 121, std::to_string(score * 100 / 5000).c_str());
+    lib->print(25, 110, "CLAIMED :    %%");
+    lib->print(26, 110, "exit    :    E");
+    lib->print(27, 110, "up      :    Z");
+    lib->print(28, 110, "down    :    S");
+    lib->print(29, 110, "left    :    Q");
+    lib->print(30, 110, "right   :    D");
+    lib->print(25, 121, std::to_string(score * 100 / 5000).c_str());
 }
 
 void qix::addEnnemies(int x, int y, std::string s)

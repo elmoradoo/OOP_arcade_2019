@@ -19,6 +19,7 @@
 #include <iostream>
 #include <ctime>
 #include <unistd.h>
+#include "ILib.hpp"
 
 struct player {
     std::string c = "0";
@@ -70,7 +71,8 @@ class qix {
         player getTmpplayer() const;
         int getTmptime() const;
         std::vector<player> getEnnemies() const;
-        void display();
+        void display(ILib *lib);
+        void loop(ILib *lib);
     private:
         std::vector<std::string> map;
         std::vector<std::string> background;
