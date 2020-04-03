@@ -7,7 +7,23 @@
 
 #include "snake.hpp"
 
-int snake_game(ILib* lib)
+IGame *game = nullptr;
+
+__attribute__((constructor)) void load_lib()
+{
+    game = new snake;
+}
+
+// __attribute__((destructor)) void unload_lib()
+// {
+// }
+
+extern "C" IGame *entry_point()
+{
+    return (game);
+}
+
+void snake::loop(ILib* lib)
 {
     int input = 0;
     int speed = 750;
@@ -26,10 +42,9 @@ int snake_game(ILib* lib)
         render_map(map, snake, lib);
         speed = change_speed(snake->getLength() - 3);
     }
-    return (snake->getLength() - 3);
 }
 
-void render_map(std::vector<std::string> map, std::shared_ptr<snake_c> snake, ILib *lib)
+void snake::render_map(std::vector<std::string> map, std::shared_ptr<snake_c> snake, ILib *lib)
 {
     unsigned int i = 0;
     struct winsize w;
@@ -45,7 +60,7 @@ void render_map(std::vector<std::string> map, std::shared_ptr<snake_c> snake, IL
     lib->refreshw();
 }
 
-int check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
+int snake::check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
 {
     pos_t pos_0 = snake->getPos(0);
     std::string previous = snake->getPrevious();
@@ -61,7 +76,7 @@ int check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::st
     return (0);
 }
 
-int move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
+int snake::move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
 {
     pos_t previous_pos = snake->getPos(0);
     pos_t temp;
@@ -99,7 +114,7 @@ int move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::strin
     return (0);
 }
 
-std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
+std::vector<std::string> snake::put_snake_on_map(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
 {
     for (unsigned int i = 0; i < map.size(); i++) {
         for (unsigned int j = 0; j < map[i].size(); j++) {
@@ -112,7 +127,7 @@ std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c> snake, std::v
     return (map);
 }
 
-std::vector<std::string> create_map(void)
+std::vector<std::string> snake::create_map(void)
 {
     std::vector<std::string> map;
 
@@ -123,7 +138,7 @@ std::vector<std::string> create_map(void)
     return (map);
 }
 
-std::shared_ptr<snake_c> init_snake(void)
+std::shared_ptr<snake_c> snake::init_snake(void)
 {
     std::shared_ptr<snake_c> snake(new snake_c);
     pos_t pos = {5, 19};
@@ -136,7 +151,7 @@ std::shared_ptr<snake_c> init_snake(void)
     return (snake);
 }
 
-std::vector<std::string> put_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
+std::vector<std::string> snake::put_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
     pos_t fruit_pos;
 
@@ -154,7 +169,7 @@ std::vector<std::string> put_fruit(std::vector<std::string> map, std::shared_ptr
     return (map);
 }
 
-void add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
+void snake::add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::string> map)
 {
     pos_t new_pos;
 
@@ -187,7 +202,7 @@ void add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::string> 
     snake->addElem(new_pos);
 }
 
-std::vector<std::string> check_if_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
+std::vector<std::string> snake::check_if_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
     if (map[snake->getPos(0).x][snake->getPos(0).y] == 'O') {
         add_body_to_snake(snake, map);
@@ -196,7 +211,7 @@ std::vector<std::string> check_if_fruit(std::vector<std::string> map, std::share
     return (map);
 }
 
-int change_speed(int score)
+int snake::change_speed(int score)
 {
     if (score >= 20)
         return (650);
@@ -211,7 +226,7 @@ int change_speed(int score)
     return (750);
 }
 
-int get_input(ILib *lib)
+int snake::get_input(ILib *lib)
 {
     return (lib->getchw());
 }

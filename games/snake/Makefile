@@ -5,14 +5,14 @@
 ## Compilation
 ##
 
-NAME	=	../lib_arcade_snake.so
+NAME	=	../lib_arcade_nibbler.so
 
 SRC	=	src/snake.cpp	\
 		src/snake_class.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=  -I./include -I../../lib/ -Wall -Wextra -fPIC
+CPPFLAGS	=  -I./include -I../../lib/ -I../ -Wall -Wextra -fPIC
 
 all: $(NAME)
 
