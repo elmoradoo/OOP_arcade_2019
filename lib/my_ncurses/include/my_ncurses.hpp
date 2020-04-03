@@ -10,13 +10,18 @@
 
 #include "../../ILib.hpp"
 
+#include <ncurses.h>
+#include <sys/ioctl.h>
+
 class myNcurses : public ILib
 {
 private:
 public:
     myNcurses();
     ~myNcurses();
-    void print();
+    void erasew() const;
+    void refreshw() const;
+    void print(int y, int x, const std::string &s) const;
 };
 
 #endif /* !MY_NCURSES_HPP_ */
