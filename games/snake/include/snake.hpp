@@ -15,7 +15,6 @@
 #include <memory>
 #include <ctime>
 #include <vector>
-#include <ncurses.h>
 #include <sys/ioctl.h>
 #include "IGame.hpp"
 #include "ILib.hpp"
@@ -49,6 +48,7 @@ class snake_c {
 class snake : public IGame {
     public:
         snake();
+        ~snake();
         void loop(ILib* lib);
         void render_map(std::vector<std::string>, std::shared_ptr<snake_c>, ILib *);
         int check_if_lose(std::shared_ptr<snake_c>, int, std::vector<std::string>);

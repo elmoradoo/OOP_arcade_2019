@@ -12,12 +12,12 @@ SRC	=	src/snake.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=  -I./include -I../../lib/ -I../ -Wall -Wextra -fPIC
+CPPFLAGS	= -I./include -I../../lib/ -I../ -Wall -Wextra -fPIC
 
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-	g++ --shared -o $(NAME) $(OBJ)
+	g++ -shared $(OBJ) -o $(NAME)
 
 clean:
 	rm -f src/*.o

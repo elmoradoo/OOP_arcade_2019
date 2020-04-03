@@ -9,6 +9,14 @@
 
 IGame *game = nullptr;
 
+snake::snake()
+{
+}
+
+snake::~snake()
+{
+}
+
 __attribute__((constructor)) void load_lib()
 {
     game = new snake;
@@ -26,13 +34,11 @@ extern "C" IGame *entry_point()
 void snake::loop(ILib* lib)
 {
     int input = 0;
-    int speed = 750;
     std::shared_ptr<snake_c> snake = init_snake();
     std::vector<std::string> map = create_map();
 
     map = put_fruit(map, snake);
-    while ((input = get_input(lib)) != 'q') {
-        timeout(speed);
+    while ((input = get_input(lib)) != 'e') {
         if (move_snake(snake, input, map) == -1)
             break;
         if (snake->getPos(0).x == 0 || snake->getPos(0).x == 11 || snake->getPos(0).y == 0 || snake->getPos(0).y == 40)
@@ -40,7 +46,6 @@ void snake::loop(ILib* lib)
         map = check_if_fruit(map, snake);
         map = put_snake_on_map(snake, map);
         render_map(map, snake, lib);
-        speed = change_speed(snake->getLength() - 3);
     }
 }
 
@@ -55,8 +60,8 @@ void snake::render_map(std::vector<std::string> map, std::shared_ptr<snake_c> sn
         lib->print(w.ws_row / 2, w.ws_col / 2 - 9, "The map is too big");
     for (i = 0; i < map.size(); i++)
         lib->print(w.ws_row / 2 + i - 6, w.ws_col / 2 - 21, map[i].c_str());
-    lib->print(w.ws_row / 2 + map.size() + 5, w.ws_col / 2, "SCORE: ");
-    lib->print(w.ws_row / 2 + map.size() + 13, w.ws_col / 2, std::to_string(snake->getLength() - 3));
+    lib->print(w.ws_row / 2, w.ws_col / 2 + 22, "SCORE: ");
+    lib->print(w.ws_row / 2, w.ws_col / 2 + 28, std::to_string(snake->getLength() - 3));
     lib->refreshw();
 }
 
@@ -65,13 +70,13 @@ int snake::check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<
     pos_t pos_0 = snake->getPos(0);
     std::string previous = snake->getPrevious();
 
-    if (input == KEY_UP && previous != "DOWN" && map[pos_0.x - 1][pos_0.y] == '*')
+    if (input == 'z' && previous != "DOWN" && map[pos_0.x - 1][pos_0.y] == '*')
         return (-1);
-    else if (input == KEY_DOWN && previous != "UP" && map[pos_0.x + 1][pos_0.y] == '*')
+    else if (input == 's' && previous != "UP" && map[pos_0.x + 1][pos_0.y] == '*')
         return (-1);
-    else if (input == KEY_LEFT && previous != "RIGHT" && map[pos_0.x][pos_0.y - 1] == '*')
+    else if (input == 'q' && previous != "RIGHT" && map[pos_0.x][pos_0.y - 1] == '*')
         return (-1);
-    else if (input == KEY_RIGHT && previous != "LEFT" && map[pos_0.x][pos_0.y + 1] == '*')
+    else if (input == 'd' && previous != "LEFT" && map[pos_0.x][pos_0.y + 1] == '*')
         return (-1);
     return (0);
 }
@@ -84,16 +89,16 @@ int snake::move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std
 
     if (check_if_lose(snake, input, map) == -1)
         return (-1);
-    else if (input == KEY_UP && previous != "DOWN") {
+    else if (input == 'z' && previous != "DOWN") {
         snake->setPosx(previous_pos.x - 1, 0);
         snake->setPrevious("UP");
-    } else if (input == KEY_DOWN && previous != "UP") {
+    } else if (input == 's' && previous != "UP") {
         snake->setPosx(previous_pos.x + 1, 0);
         snake->setPrevious("DOWN");
-    } else if (input == KEY_LEFT && previous != "RIGHT") {
+    } else if (input == 'q' && previous != "RIGHT") {
         snake->setPosy(previous_pos.y - 1, 0);
         snake->setPrevious("LEFT");
-    } else if (input == KEY_RIGHT  && previous != "LEFT") {
+    } else if (input == 'd'  && previous != "LEFT") {
         snake->setPosy(previous_pos.y + 1, 0);
         snake->setPrevious("RIGHT");
     } else {
@@ -209,21 +214,6 @@ std::vector<std::string> snake::check_if_fruit(std::vector<std::string> map, std
         map = put_fruit(map, snake);
     }
     return (map);
-}
-
-int snake::change_speed(int score)
-{
-    if (score >= 20)
-        return (650);
-    else if (score >= 40)
-        return (550);
-    else if (score >= 60)
-        return (450);
-    else if (score >= 80)
-        return (350);
-    else if (score >= 100)
-        return (200);
-    return (750);
 }
 
 int snake::get_input(ILib *lib)
