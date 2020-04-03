@@ -49,6 +49,8 @@ void qix::ennemiesMove()
     int x = 0;
     int y = 0;
 
+    if ((score * 100 / 5000) >= 75)
+        return;
     if (tmptime > 20) {
         x = tmpplayer.xb;
         y = tmpplayer.yb;

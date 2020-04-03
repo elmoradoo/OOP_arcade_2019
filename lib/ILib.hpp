@@ -8,6 +8,8 @@
 #ifndef ILIB_HPP_
 #define ILIB_HPP_
 
+#include <string>
+
 class ILib {
     public:
         virtual ~ILib() = 0;
