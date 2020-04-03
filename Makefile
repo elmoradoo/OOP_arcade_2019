@@ -23,6 +23,7 @@ $(GAME):
 	make re -C ./games/solar_fox
 	make re -C ./games/snake
 	make re -C ./games/centipede
+	make re -C ./games/pacman
 
 graphicals:
 	make -C ./lib/my_ncurses
@@ -30,14 +31,21 @@ graphicals:
 clean:
 	make clean -C  ./core
 	make clean -C ./lib/my_ncurses
+	make clean -C ./games/qix
+	make clean -C ./games/solar_fox
+	make clean -C ./games/snake
+	make clean -C ./games/centipede
+	make clean -C ./games/pacman
 
-fclean:
+
+fclean: clean
 	make fclean -C  ./core
 	make fclean -C ./lib/my_ncurses
 	make fclean -C ./games/qix
 	make fclean -C ./games/solar_fox
 	make fclean -C ./games/snake
 	make fclean -C ./games/centipede
+	make fclean -C ./games/pacman
 
 
 re: fclean all
