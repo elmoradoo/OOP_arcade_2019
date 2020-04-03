@@ -7,6 +7,22 @@
 
 #include "qix.hpp"
 
+IGame *game = nullptr;
+
+__attribute__((constructor)) void load_lib()
+{
+    game = new qix;
+}
+
+// __attribute__((destructor)) void unload_lib()
+// {
+// }
+
+extern "C" IGame *entry_point()
+{
+    return (game);
+}
+
 void qix::loop(ILib *lib)
 {
     while (1) { 
@@ -388,12 +404,12 @@ void qix::display(ILib *lib)
     for (std::size_t i = 0; i != map.size(); i++)
         lib->print(i, 0, map[i].c_str());
     lib->print(p.y, p.x, p.c.c_str());
-    attron(COLOR_PAIR(1));
+    // attron(COLOR_PAIR(1));
     if (tmptime > 20)
         lib->print(tmpplayer.y, tmpplayer.x, "X");
     for (std::size_t i = 0; i != ennemies.size(); i++)
         lib->print(ennemies[i].y, ennemies[i].x, ennemies[i].c.c_str());
-    attroff(COLOR_PAIR(1));
+    // attroff(COLOR_PAIR(1));
     for (std::size_t i = 0; i != b.animeboss[b.nb].size(); i++)
         lib->print(i + b.y, 0 + b.x, b.animeboss[b.nb][i].c_str());
     bossMovement();
