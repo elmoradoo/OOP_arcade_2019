@@ -220,7 +220,7 @@ bool qix::checkBossPos(int nbx, int nby)
 
 void qix::setGameover()
 {
-    std::ifstream _file("gameover", std::ios::in);
+    std::ifstream _file("games/qix/gameover", std::ios::in);
     std::string buffer;
 
     while (std::getline(_file, buffer, '\n'))
@@ -443,7 +443,7 @@ void qix::addEnnemies(int x, int y, std::string s)
 
 void qix::setBackground()
 {
-    std::ifstream _file("background", std::ios::in);
+    std::ifstream _file("games/qix/background", std::ios::in);
     std::string buffer;
 
     while (std::getline(_file, buffer, '\n'))
@@ -452,7 +452,7 @@ void qix::setBackground()
 
 void qix::setFirework()
 {
-    std::ifstream _file("firework", std::ios::in);
+    std::ifstream _file("games/qix/firework", std::ios::in);
     std::string buffer;
     std::vector<std::string> sprite;
     int nb = 0;
@@ -469,7 +469,7 @@ void qix::setFirework()
 
 void qix::addBoss()
 {
-    std::ifstream _file("monster", std::ios::in);
+    std::ifstream _file("games/qix/monster", std::ios::in);
     std::string buffer;
     std::vector<std::string> sprite;
     int nb = 0;
