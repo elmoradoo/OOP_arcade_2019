@@ -13,7 +13,7 @@ SRC	=	src/qix.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	= -I./include -I../../lib/ -Wall -Wextra -fPIC
+CPPFLAGS	= -I./include -I../../lib/ -I../ -Wall -Wextra -fPIC
 
 all: $(NAME)
 
