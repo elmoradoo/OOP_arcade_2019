@@ -19,9 +19,9 @@ $(CORE):
 games: $(GAME)
 
 $(GAME):
-	make -C ./games/qix
-	make -C ./games/solar_fox
-	make -C ./games/snake
+	make re -C ./games/qix
+	make re -C ./games/solar_fox
+	make re -C ./games/snake
 
 graphicals:
 	make -C ./lib/my_ncurses
@@ -33,6 +33,10 @@ clean:
 fclean:
 	make fclean -C  ./core
 	make fclean -C ./lib/my_ncurses
+	make fclean -C ./games/qix
+	make fclean -C ./games/solar_fox
+	make fclean -C ./games/snake
+
 
 re: fclean all
 
