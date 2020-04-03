@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <dlfcn.h>
-#include "../../lib/ILib.hpp"
+#include "ILib.hpp"
 
 
 class dlHandler {

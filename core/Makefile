@@ -11,11 +11,11 @@ DIR 	= 	src/
 
 SRC		=	$(DIR)main.cpp	\
 			$(DIR)dlHandler.cpp	\
-			# $(DIR)core.cpp	\
+			$(DIR)menu.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=	-Wall -Wextra -I./include -I../games/qix/include
+CPPFLAGS	=	-Wall -Wextra -I./include -I../lib/
 
 all:	$(NAME)
 $(NAME):	$(OBJ)
