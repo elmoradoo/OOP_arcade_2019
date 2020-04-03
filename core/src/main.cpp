@@ -13,7 +13,8 @@
 //
 
 #include "dlHandler.hpp"
-#include "../../lib/ILib.hpp"
+#include "menu.hpp"
+#include "ILib.hpp"
 
 
 int main(int ac, char **av)
@@ -25,7 +26,8 @@ int main(int ac, char **av)
     std::cout << "ok" << std::endl;
     hdl.loadLib(libPath);
     ILib *lib = hdl.getLib();
-    lib->print();
+    menu ste;
+    ste.loop(lib);
     hdl.unLoadLib();
     return (0);
 }
