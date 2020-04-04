@@ -19,8 +19,8 @@ private:
 public:
     myNcurses();
     ~myNcurses();
-    void erasew() const;
-    void refreshw() const;
+    void erasew();
+    void refreshw();
     void print(int y, int x, const std::string &s) const;
     int getchw() const;
 };

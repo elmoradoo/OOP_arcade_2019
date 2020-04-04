@@ -35,12 +35,12 @@ myNcurses::~myNcurses()
     endwin();
 }
 
-void myNcurses::refreshw() const
+void myNcurses::refreshw()
 {
     refresh();
 }
 
-void myNcurses::erasew() const
+void myNcurses::erasew()
 {
     erase();
 }

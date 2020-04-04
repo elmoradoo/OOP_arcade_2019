@@ -18,8 +18,9 @@ mySfml::~mySfml()
 {
 }
 
-void mySfml::refreshw() const
+void mySfml::refreshw()
 {
+    window.display();
 }
 
 void mySfml::erasew()

@@ -20,7 +20,7 @@ class mySfml : public ILib
         mySfml();
         ~mySfml();
         void erasew();
-        void refreshw() const;
+        void refreshw();
         void print(int y, int x, const std::string &s) const;
         int getchw() const;
 };

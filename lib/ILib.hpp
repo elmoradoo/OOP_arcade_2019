@@ -13,8 +13,8 @@
 class ILib {
     public:
         virtual ~ILib() = 0;
-        virtual void erasew() const = 0;
-        virtual void refreshw() const = 0;
+        virtual void erasew() = 0;
+        virtual void refreshw() = 0;
         virtual void print(int y, int x, const std::string &s) const = 0;
         virtual int getchw() const = 0;
     protected:
