@@ -38,13 +38,13 @@ std::string menu::loop(ILib *lib)
 void menu::Display(ILib * lib) const
 {
     lib->print(7, 10, std::to_string(this->posx));
-    lib->print(10, 10, "nibbler");
+    lib->print(10, 10, "Nibbler");
     lib->print(12, 10, "Qix");
     lib->print(14, 10, "Solar Fox");
     lib->print(7, 30, std::to_string(this->posy));
-    lib->print(10, 30, "ncurse");
-    lib->print(12, 30, "sfml");
-    lib->print(14, 30, "open gl");
+    lib->print(10, 30, "Ncurses");
+    lib->print(12, 30, "Sfml");
+    lib->print(14, 30, "OpenGL");
     lib->print(9 + (posy * 2), 9 + (posx * 20), "*************");
     lib->print(10 + (posy * 2), 9 + (posx * 20), "*");
     lib->print(10 + (posy * 2), 21 + (posx * 20), "*");
@@ -63,8 +63,9 @@ int menu::interpreteInput(int input)
         posy--;
     if (input == 'e')
         return (-1);
-    if (input == 'f')
+    if (input == 'f') {
         return ('f');
+    }
     return (0);
 }
 
