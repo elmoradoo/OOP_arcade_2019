@@ -10,6 +10,7 @@
 
 #include "ILib.hpp"
 
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -18,6 +19,13 @@ class mySfml : public ILib
     private:
         sf::RenderWindow window;
         sf::Event event;
+        sf::Font font;
+        sf::Text text;
+        sf::RectangleShape white_rectangle;
+        sf::RectangleShape red_rectangle;
+        sf::RectangleShape little_white_rectangle;
+        sf::RectangleShape yellow_rectangle;
+        sf::RectangleShape black_rectangle;
     public:
         mySfml();
         ~mySfml();
