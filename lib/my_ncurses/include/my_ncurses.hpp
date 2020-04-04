@@ -21,8 +21,8 @@ public:
     ~myNcurses();
     void erasew();
     void refreshw();
-    void print(int y, int x, const std::string &s) const;
-    int getchw() const;
+    void print(int y, int x, const std::string &s);
+    int getchw();
 };
 
 #endif /* !MY_NCURSES_HPP_ */

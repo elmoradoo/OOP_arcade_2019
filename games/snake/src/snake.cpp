@@ -132,10 +132,10 @@ std::vector<std::string> snake::create_map(void)
 {
     std::vector<std::string> map;
 
-    map.push_back("+---------------------------------------+");
+    map.push_back("#########################################");
     for (int i = 0; i < 10; i++)
-        map.push_back("|                                       |");
-    map.push_back("+---------------------------------------+");
+        map.push_back("#                                       #");
+    map.push_back("#########################################");
     return (map);
 }
 
@@ -187,15 +187,15 @@ void snake::add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::s
         new_pos.x = snake->getPos(snake->getLength() - 1).x;
         new_pos.y = snake->getPos(snake->getLength() - 1).y + 1;
     }
-    if (map[new_pos.x][new_pos.y] == '|') {
+    if (map[new_pos.x][new_pos.y] == '#') {
         new_pos.x = snake->getPos(snake->getLength() - 1).x;
-        if (map[new_pos.x][new_pos.y - 1] != '-')
+        if (map[new_pos.x][new_pos.y - 1] != '#')
             new_pos.y -= 1;
         else
             new_pos.y += 1;
-    } else if (map[new_pos.x][new_pos.y] == '-') {
+    } else if (map[new_pos.x][new_pos.y] == '#') {
         new_pos.y = snake->getPos(snake->getLength() - 1).y;
-        if (map[new_pos.x - 1][new_pos.y] != '-')
+        if (map[new_pos.x - 1][new_pos.y] != '#')
             new_pos.y -= 1;
         else
             new_pos.y += 1;

@@ -45,12 +45,12 @@ void myNcurses::erasew()
     erase();
 }
 
-void myNcurses::print(int y, int x, const std::string &s) const 
+void myNcurses::print(int y, int x, const std::string &s)
 {
     mvprintw(y, x, s.c_str());
 }
 
-int myNcurses::getchw() const
+int myNcurses::getchw()
 {
     return (getch());
 }
