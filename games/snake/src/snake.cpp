@@ -47,11 +47,11 @@ void snake::loop(ILib* lib)
         map = check_if_fruit(map, snake);
         map = put_snake_on_map(snake, map);
         render_map(map, snake, lib);
-        if (snake->getLength() == 15)
+        if (snake->getLength() - 3 == 15)
             lib->setSpeed(1);
-        else if (snake->getLength() == 30)
+        else if (snake->getLength() - 3 == 30)
             lib->setSpeed(2);
-        else if (snake->getLength() == 50)
+        else if (snake->getLength() - 3 == 50)
             lib->setSpeed(3);
     }
 }
@@ -63,8 +63,7 @@ void snake::render_map(std::vector<std::string> map, std::shared_ptr<snake_c> sn
     lib->erasew();
     for (i = 0; i < map.size(); i++)
         lib->print(i, 0, map[i].c_str());
-    lib->print(i / 2, 42, "SCORE: ");
-    lib->print(i / 2, 49, std::to_string(snake->getLength() - 3));
+    lib->print(i / 2, 42, "SCORE: " + std::to_string(snake->getLength() - 3));
     lib->refreshw();
 }
 

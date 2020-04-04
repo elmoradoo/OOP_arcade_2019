@@ -9,8 +9,17 @@
 
 ILib *lib = nullptr;
 
-mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade")
+mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade"), white_rectangle(sf::Vector2f(10, 10)), red_rectangle(sf::Vector2f(10, 10)), little_white_rectangle(sf::Vector2f(5, 5)), yellow_rectangle(sf::Vector2f(10, 10)), black_rectangle(sf::Vector2f(10, 10))
 {
+    white_rectangle.setFillColor(sf::Color(255, 255, 255));
+    red_rectangle.setFillColor(sf::Color(255, 0, 0));
+    little_white_rectangle.setFillColor(sf::Color(255, 255, 255));
+    yellow_rectangle.setFillColor(sf::Color::Yellow);
+    black_rectangle.setFillColor(sf::Color::Black);
+    font.loadFromFile("./Roboto-Thin.ttf");
+    text.setFont(this->font);
+    text.setCharacterSize(20);
+    text.setFillColor(sf::Color::White);
     window.setFramerateLimit(23);
     window.setKeyRepeatEnabled(false);
 }
@@ -43,27 +52,24 @@ void mySfml::setSpeed(int speed)
 
 void mySfml::print(int y, int x, const std::string &s)
 {
-    sf::RectangleShape white_rectangle(sf::Vector2f(10, 10));
-    sf::RectangleShape red_rectangle(sf::Vector2f(10, 10));
-    sf::Text text;
-    white_rectangle.setFillColor(sf::Color(255, 255, 255));
-    red_rectangle.setFillColor(sf::Color(255, 0, 0));
-
-    if ((s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z')) {
-        text.setCharacterSize(50);
-        text.setString(s);
-        text.setFillColor(sf::Color::Red);
-        text.setPosition((x * 10), (y * 10));
+    if ((s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z') || (s[0] >= '0' && s[0] <= '9')) {
+        this->text.setString(s);
+        this->text.setPosition((x * 10), (y * 10));
         window.draw(text);
     } else {
         for (unsigned int i = 0; i < s.size(); i++) {
             if (s[i] == '#' || s[i] == '*') {
-                white_rectangle.setPosition(x + (i * 10), (y * 10));
-                window.draw(white_rectangle);
-            }
-            else if (s[i] == '+') {
-                red_rectangle.setPosition(x + (i * 10), (y * 10));
-                window.draw(red_rectangle);
+                this->white_rectangle.setPosition(x + (i * 10), (y * 10));
+                window.draw(this->white_rectangle);
+            } else if (s[i] == '+') {
+                this->red_rectangle.setPosition(x + (i * 10), (y * 10));
+                window.draw(this->red_rectangle);
+            } else if (s[i] == ' ') {
+                this->black_rectangle.setPosition(x + (i * 10), (y * 10));
+                window.draw(this->black_rectangle);
+            } else {
+                this->yellow_rectangle.setPosition(x + (i * 10), (y * 10));
+                window.draw(this->yellow_rectangle);
             }
         }
     }
