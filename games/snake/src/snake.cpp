@@ -31,28 +31,28 @@ extern "C" IGame *entry_point()
     return (game);
 }
 
-void snake::loop(ILib* lib)
+void snake::loop(dlHandler &hdl)
 {
     int input = 0;
     std::shared_ptr<snake_c> snake = init_snake();
     std::vector<std::string> map = create_map();
 
     map = put_fruit(map, snake);
-    lib->setSpeed(0);
-    while ((input = get_input(lib)) != 'e') {
+    hdl.lib->setSpeed(0);
+    while ((input = get_input(hdl.lib)) != 'e') {
         if (move_snake(snake, input, map) == -1)
             break;
         if (snake->getPos(0).x == 0 || snake->getPos(0).x == static_cast<int>(map.size() - 1) || snake->getPos(0).y == 0 || snake->getPos(0).y == static_cast<int>(map[0].size() - 1))
             break;
         map = check_if_fruit(map, snake);
         map = put_snake_on_map(snake, map);
-        render_map(map, snake, lib);
+        render_map(map, snake, hdl.lib);
         if (snake->getLength() - 3 == 15)
-            lib->setSpeed(1);
+            hdl.lib->setSpeed(1);
         else if (snake->getLength() - 3 == 30)
-            lib->setSpeed(2);
+            hdl.lib->setSpeed(2);
         else if (snake->getLength() - 3 == 50)
-            lib->setSpeed(3);
+            hdl.lib->setSpeed(3);
     }
 }
 
