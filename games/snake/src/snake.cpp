@@ -52,16 +52,12 @@ void snake::loop(ILib* lib)
 void snake::render_map(std::vector<std::string> map, std::shared_ptr<snake_c> snake, ILib *lib)
 {
     unsigned int i = 0;
-    struct winsize w;
 
-    ioctl(0, TIOCGWINSZ, &w);
     lib->erasew();
-    if (w.ws_row < 10 || w.ws_col < 40)
-        lib->print(w.ws_row / 2, w.ws_col / 2 - 9, "The map is too big");
     for (i = 0; i < map.size(); i++)
-        lib->print(w.ws_row / 2 + i - 6, w.ws_col / 2 - 21, map[i].c_str());
-    lib->print(w.ws_row / 2, w.ws_col / 2 + 22, "SCORE: ");
-    lib->print(w.ws_row / 2, w.ws_col / 2 + 28, std::to_string(snake->getLength() - 3));
+        lib->print(i, 0, map[i].c_str());
+    lib->print(i / 2, 42, "SCORE: ");
+    lib->print(i / 2, 49, std::to_string(snake->getLength() - 3));
     lib->refreshw();
 }
 
