@@ -33,13 +33,13 @@ centipede::~centipede()
 
 }
 
-void centipede::loop(ILib *lib)
+void centipede::loop(dlHandler &hdl)
 {
     std::string s = "centipede";
 
     while (1) {
-        lib->erasew();
-        lib->print(10, 10, s);
-        lib->refreshw();
+        hdl.lib->erasew();
+        hdl.lib->print(10, 10, s);
+        hdl.lib->refreshw();
     }
 }

@@ -12,7 +12,7 @@ SRC	=	src/snake.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	= -I./include -I../../lib/ -I../ -Wall -Wextra -fPIC
+CPPFLAGS	= -I./include -I../../lib/ -I../ -I../../core/include -Wall -Wextra -fPIC
 
 all: $(NAME)
 

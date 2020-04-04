@@ -23,14 +23,14 @@ extern "C" IGame *entry_point()
     return (game);
 }
 
-void qix::loop(ILib *lib)
+void qix::loop(dlHandler &hdl)
 {
     while (1) { 
-        lib->erasew();
+        hdl.lib->erasew();
         ennemiesMove();
-        display(lib);
-        lib->refreshw();
-        if (interpreteInput(lib->getchw()) == -1)
+        display(hdl.lib);
+        hdl.lib->refreshw();
+        if (interpreteInput(hdl.lib->getchw()) == -1)
             break;
     }
 }

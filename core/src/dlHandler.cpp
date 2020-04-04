@@ -24,9 +24,9 @@ void dlHandler::unLoadLib()
     dlclose(_handle);
 }
 
-ILib *dlHandler::getLib() const
+ILib *dlHandler::getLib()
 {
-    ILib *lib = nullptr;
+    ILib *libs = nullptr;
     void *tmp = nullptr;
     entry_point entry;
     if (_handle == nullptr) {
@@ -39,6 +39,7 @@ ILib *dlHandler::getLib() const
         exit(84);
     }
     entry = (entry_point)tmp;
-    lib = entry();
-    return (lib);
+    libs = entry();
+    lib = libs;
+    return (libs);
 }

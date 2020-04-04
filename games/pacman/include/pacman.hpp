@@ -16,7 +16,7 @@ class pacman : public IGame {
     public:
         pacman();
         ~pacman();
-        void loop(ILib *lib);
+        void loop(dlHandler &hdl);
 };
 
 #endif /* !PACMAN_HPP_ */

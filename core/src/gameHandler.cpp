@@ -6,6 +6,7 @@
 */
 
 #include "dlHandler.hpp"
+#include "dlHandlerGame.hpp"
 
 typedef IGame *(*entry_point)();
 

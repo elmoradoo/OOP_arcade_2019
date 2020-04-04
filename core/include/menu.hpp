@@ -13,7 +13,7 @@
 #include "ILib.hpp"
 #include <memory>
 #include <iostream>
-
+#include "dlHandler.hpp"
 
 class menu {
     private:
@@ -23,7 +23,7 @@ class menu {
         menu(/* args */);
         ~menu();
         void Display(ILib * lib) const;
-        std::string loop(ILib *lib);
+        std::string loop(dlHandler &hdl);
         int interpreteInput(int input);
         int getPosx() const;
         int getPosy() const;

@@ -8,12 +8,10 @@
 NAME	=	../lib_arcade_qix.so
 
 SRC	=	src/qix.cpp	\
-		# src/qix.cpp	\
-		# ../../lib/my_ncurses/my_ncurses.cpp\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	= -I./include -I../../lib/ -I../ -Wall -Wextra -fPIC
+CPPFLAGS	= -I./include -I../../lib/ -I../ -I../../core/include -Wall -Wextra -fPIC
 
 all: $(NAME)
 

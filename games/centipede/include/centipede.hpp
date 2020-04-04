@@ -16,7 +16,7 @@ class centipede : public IGame {
     public:
         centipede();
         ~centipede();
-        void loop(ILib *lib);
+        void loop(dlHandler &hdl);
 };
 
 #endif /* !CENTIPEDE_HPP_ */

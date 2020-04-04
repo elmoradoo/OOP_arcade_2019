@@ -13,15 +13,14 @@ menu::menu(/* args */)
     posx = 0;
 }
 
-std::string menu::loop(ILib *lib)
+std::string menu::loop(dlHandler &hdl)
 {
     int input = 0;
-
     while (1) {
-        lib->erasew();
-        Display(lib);
-        lib->refreshw();
-        input = interpreteInput(lib->getchw());
+        hdl.lib->erasew();
+        Display(hdl.lib);
+        hdl.lib->refreshw();
+        input = interpreteInput(hdl.lib->getchw());
         if (input == 'f') {
             if (this->posy == 0) // IF NIBBLER
                 return ("lib_arcade_nibbler.so");

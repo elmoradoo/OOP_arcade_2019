@@ -8,10 +8,11 @@
 #ifndef IGAME_HPP_
 #define IGAME_HPP_
 #include "ILib.hpp"
+#include "dlHandler.hpp"
 
 class IGame {
     public:
-        virtual void loop(ILib *lib) = 0;
+        virtual void loop(dlHandler &hdl) = 0;
     protected:
     private:
 };
