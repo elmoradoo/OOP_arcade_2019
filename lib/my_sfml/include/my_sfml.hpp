@@ -11,6 +11,7 @@
 #include "ILib.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 class mySfml : public ILib
 {

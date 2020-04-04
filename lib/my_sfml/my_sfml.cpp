@@ -8,6 +8,7 @@
 #include "my_sfml.hpp"
 
 ILib *lib = nullptr;
+sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arcade");
 
 mySfml::mySfml()
 {
