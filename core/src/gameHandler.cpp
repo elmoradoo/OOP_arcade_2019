@@ -31,12 +31,12 @@ IGame *gameHandler::getLib() const
     entry_point entry;
     if (_handle == nullptr) {
         std::cerr << "No lib has been loaded yet" << std::endl;
-        return (nullptr);
+       exit(84);
     }
     tmp = dlsym(_handle, "entry_point");
     if (tmp == nullptr) {
         std::cerr << "Could not get Game Lib Class" << std::endl;
-        return (nullptr);
+        exit(84);
     }
     entry = (entry_point)tmp;
     lib = entry();
