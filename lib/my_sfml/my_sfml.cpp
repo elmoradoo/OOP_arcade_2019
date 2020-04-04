@@ -59,16 +59,16 @@ void mySfml::print(int y, int x, const std::string &s)
     } else {
         for (unsigned int i = 0; i < s.size(); i++) {
             if (s[i] == '#' || s[i] == '*') {
-                this->white_rectangle.setPosition(x + (i * 10), (y * 10));
+                this->white_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->white_rectangle);
             } else if (s[i] == '+') {
-                this->red_rectangle.setPosition(x + (i * 10), (y * 10));
+                this->red_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->red_rectangle);
             } else if (s[i] == ' ') {
-                this->black_rectangle.setPosition(x + (i * 10), (y * 10));
+                this->black_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->black_rectangle);
             } else {
-                this->yellow_rectangle.setPosition(x + (i * 10), (y * 10));
+                this->yellow_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->yellow_rectangle);
             }
         }
