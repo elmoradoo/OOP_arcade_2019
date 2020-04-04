@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include "include/my_ncurses.hpp"
+#include "my_ncurses.hpp"
 
 ILib *lib = nullptr;
 

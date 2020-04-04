@@ -8,7 +8,7 @@
 #ifndef MY_NCURSES_HPP_
 #define MY_NCURSES_HPP_
 
-#include "../../ILib.hpp"
+#include "ILib.hpp"
 
 #include <ncurses.h>
 #include <sys/ioctl.h>

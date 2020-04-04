@@ -1,13 +1,13 @@
 ##
-## EPITECH PROJECT, 2019
-## ohnomason
+## EPITECH PROJECT, 2020
+## OOP_arcade_2019
 ## File description:
-## ohnomason.makefile
+## Makefile
 ##
 
-LIBNAME 	= 	../../lib_arcade_ncurses.so
+LIBNAME 	= 	../../lib_arcade_sfml.so
 
-SRC	= 	my_ncurses.cpp	\
+SRC	= 	my_sfml.cpp	\
 
 OBJ	= 	$(SRC:.cpp=.o)
 

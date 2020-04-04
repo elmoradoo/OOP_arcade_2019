@@ -27,10 +27,12 @@ $(GAME):
 
 graphicals:
 	make -C ./lib/my_ncurses
+	make -C ./lib/my_sfml
 
 clean:
 	make clean -C  ./core
 	make clean -C ./lib/my_ncurses
+	make clean -C ./lib/my_sfml
 	make clean -C ./games/qix
 	make clean -C ./games/solar_fox
 	make clean -C ./games/snake
@@ -41,6 +43,7 @@ clean:
 fclean: clean
 	make fclean -C  ./core
 	make fclean -C ./lib/my_ncurses
+	make fclean -C ./lib/my_sfml
 	make fclean -C ./games/qix
 	make fclean -C ./games/solar_fox
 	make fclean -C ./games/snake
