@@ -10,13 +10,16 @@
 
 #include "ILib.hpp"
 
+#include <SFML/Graphics.hpp>
+
 class mySfml : public ILib
 {
     private:
+        sf::RenderWindow window;
     public:
         mySfml();
         ~mySfml();
-        void erasew() const;
+        void erasew();
         void refreshw() const;
         void print(int y, int x, const std::string &s) const;
         int getchw() const;

@@ -11,6 +11,7 @@ ILib *lib = nullptr;
 
 mySfml::mySfml()
 {
+    window.setFramerateLimit(60);
 }
 
 mySfml::~mySfml()
@@ -21,8 +22,9 @@ void mySfml::refreshw() const
 {
 }
 
-void mySfml::erasew() const
+void mySfml::erasew()
 {
+    window.clear();
 }
 
 void mySfml::print(int y, int x, const std::string &s) const 

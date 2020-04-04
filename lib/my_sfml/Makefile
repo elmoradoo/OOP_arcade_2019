@@ -13,7 +13,7 @@ OBJ	= 	$(SRC:.cpp=.o)
 
 CPPFLAGS	=	-Iinclude -I./../ -W -Wall -Wextra -fPIC
 
-LDFLAGS	=	-lncurses
+LDFLAGS	=	-lcsfml-graphics -lcsfml-window -lcsfml-system
 
 all: $(LIBNAME)
 
