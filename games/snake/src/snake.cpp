@@ -38,14 +38,21 @@ void snake::loop(ILib* lib)
     std::vector<std::string> map = create_map();
 
     map = put_fruit(map, snake);
+    lib->setSpeed(0);
     while ((input = get_input(lib)) != 'e') {
         if (move_snake(snake, input, map) == -1)
             break;
-        if (snake->getPos(0).x == 0 || snake->getPos(0).x == 11 || snake->getPos(0).y == 0 || snake->getPos(0).y == 40)
+        if (snake->getPos(0).x == 0 || snake->getPos(0).x == static_cast<int>(map.size() - 1) || snake->getPos(0).y == 0 || snake->getPos(0).y == static_cast<int>(map[0].size() - 1))
             break;
         map = check_if_fruit(map, snake);
         map = put_snake_on_map(snake, map);
         render_map(map, snake, lib);
+        if (snake->getLength() == 15)
+            lib->setSpeed(1);
+        else if (snake->getLength() == 30)
+            lib->setSpeed(2);
+        else if (snake->getLength() == 50)
+            lib->setSpeed(3);
     }
 }
 
@@ -133,7 +140,7 @@ std::vector<std::string> snake::create_map(void)
     std::vector<std::string> map;
 
     map.push_back("#########################################");
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 21; i++)
         map.push_back("#                                       #");
     map.push_back("#########################################");
     return (map);
@@ -156,17 +163,16 @@ std::vector<std::string> snake::put_fruit(std::vector<std::string> map, std::sha
 {
     pos_t fruit_pos;
 
-    fruit_pos.x = rand() % 8 + 1;
+    fruit_pos.x = rand() % 19 + 1;
     fruit_pos.y = rand() % 38 + 1;
     for (int i = 0; i < snake->getLength(); i++) {
         if (fruit_pos.x == snake->getPos(i).x && fruit_pos.y == snake->getPos(i).y) {
-            fruit_pos.x = rand() % 9 + 1;
+            fruit_pos.x = rand() % 19 + 1;
             fruit_pos.y = rand() % 39 + 1;
-            i = 0;
-            continue;
+            i = -1;
         }
     }
-    map[fruit_pos.x][fruit_pos.y] = 'O';
+    map[fruit_pos.x][fruit_pos.y] = '+';
     return (map);
 }
 
@@ -205,7 +211,7 @@ void snake::add_body_to_snake(std::shared_ptr<snake_c> snake, std::vector<std::s
 
 std::vector<std::string> snake::check_if_fruit(std::vector<std::string> map, std::shared_ptr<snake_c> snake)
 {
-    if (map[snake->getPos(0).x][snake->getPos(0).y] == 'O') {
+    if (map[snake->getPos(0).x][snake->getPos(0).y] == '+') {
         add_body_to_snake(snake, map);
         map = put_fruit(map, snake);
     }

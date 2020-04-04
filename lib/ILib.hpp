@@ -17,6 +17,7 @@ class ILib {
         virtual void refreshw() = 0;
         virtual void print(int y, int x, const std::string &s) = 0;
         virtual int getchw() = 0;
+        virtual void setSpeed(int speed) = 0;
     protected:
     private:
 };

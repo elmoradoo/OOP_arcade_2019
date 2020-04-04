@@ -8,11 +8,10 @@
 #include "my_sfml.hpp"
 
 ILib *lib = nullptr;
-sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arcade");
 
-mySfml::mySfml()
+mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade")
 {
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(23);
     window.setKeyRepeatEnabled(false);
 }
 
@@ -30,21 +29,49 @@ void mySfml::erasew()
     window.clear();
 }
 
+void mySfml::setSpeed(int speed)
+{
+    if (speed == 0)
+        window.setFramerateLimit(10);
+    else if (speed == 1)
+        window.setFramerateLimit(14);
+    else if (speed == 2)
+        window.setFramerateLimit(18);
+    else if (speed == 3)
+        window.setFramerateLimit(23);
+}
+
 void mySfml::print(int y, int x, const std::string &s)
 {
-    sf::RectangleShape rectangle(sf::Vector2f(50, 50));
+    sf::RectangleShape white_rectangle(sf::Vector2f(10, 10));
+    sf::RectangleShape red_rectangle(sf::Vector2f(10, 10));
+    sf::Text text;
+    white_rectangle.setFillColor(sf::Color(255, 255, 255));
+    red_rectangle.setFillColor(sf::Color(255, 0, 0));
 
-    rectangle.setPosition(x, y);
-    for (unsigned int i = 0; i < s.size(); i++) {
-        if (s[i] == '#')
-            window.draw(rectangle);
+    if ((s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z')) {
+        text.setCharacterSize(50);
+        text.setString(s);
+        text.setFillColor(sf::Color::Red);
+        text.setPosition((x * 10), (y * 10));
+        window.draw(text);
+    } else {
+        for (unsigned int i = 0; i < s.size(); i++) {
+            if (s[i] == '#' || s[i] == '*') {
+                white_rectangle.setPosition(x + (i * 10), (y * 10));
+                window.draw(white_rectangle);
+            }
+            else if (s[i] == '+') {
+                red_rectangle.setPosition(x + (i * 10), (y * 10));
+                window.draw(red_rectangle);
+            }
+        }
     }
 }
 
 int mySfml::getchw()
 {
     int ret = 0;
-    sf::Event event;
 
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {

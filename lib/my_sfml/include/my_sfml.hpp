@@ -17,12 +17,14 @@ class mySfml : public ILib
 {
     private:
         sf::RenderWindow window;
+        sf::Event event;
     public:
         mySfml();
         ~mySfml();
         void erasew();
         void refreshw();
         void print(int y, int x, const std::string &s);
+        void setSpeed(int speed);
         int getchw();
 };
 

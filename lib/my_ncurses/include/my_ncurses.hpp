@@ -23,6 +23,7 @@ public:
     void refreshw();
     void print(int y, int x, const std::string &s);
     int getchw();
+    void setSpeed(int speed);
 };
 
 #endif /* !MY_NCURSES_HPP_ */

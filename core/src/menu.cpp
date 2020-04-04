@@ -16,6 +16,7 @@ menu::menu(/* args */)
 std::string menu::loop(ILib *lib)
 {
     int input = 0;
+
     while (1) {
         lib->erasew();
         Display(lib);

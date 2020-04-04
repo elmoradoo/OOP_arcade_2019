@@ -55,6 +55,18 @@ int myNcurses::getchw()
     return (getch());
 }
 
+void myNcurses::setSpeed(int speed)
+{
+    if (speed == 0)
+        timeout(600);
+    else if (speed == 1)
+        timeout(450);
+    else if (speed == 2)
+        timeout(300);
+    else if (speed == 3)
+        timeout(200);
+}
+
 __attribute__((constructor)) void load_lib()
 {
     lib = new myNcurses();
