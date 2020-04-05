@@ -6,7 +6,7 @@
 */
 
 //
-// dlopen 
+// dlopen
 // dlsym
 // dlclose
 // dlerror
@@ -25,12 +25,13 @@ int main(int ac, char **av)
     if (libPath == "nullptr")
         return (84);
     dlHandler hdl;
-    std::cout << "ok" << std::endl;
     hdl.loadLib(libPath);
     menu ste;
     hdl.getLib();
     game = ste.loop(hdl);
     game = "./games/" + game;
+    if (game.find("nothing") != static_cast<long unsigned int> (-1))
+        return (0);
     // hdl.unLoadLib();
     gameHandler gHandl;
     gHandl.loadLib(game);

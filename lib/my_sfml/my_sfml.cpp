@@ -130,10 +130,10 @@ __attribute__((constructor)) void load_lib()
     lib = new mySfml();
 }
 
-__attribute__((destructor)) void unload_lib()
+/*__attribute__((destructor)) void unload_lib()
 {
     delete lib;
-}
+}*/
 
 extern "C" ILib *entry_point()
 {

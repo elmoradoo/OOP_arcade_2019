@@ -9,11 +9,9 @@
 #define MY_NCURSES_HPP_
 
 #include "ILib.hpp"
-
 #include <ncurses.h>
 #include <sys/ioctl.h>
 #include <locale.h>
-
 
 class myNcurses : public ILib
 {
