@@ -21,7 +21,6 @@
 #include <locale.h>
 
 #include "IGame.hpp"
-#include "ILib.hpp"
 
 struct bulletS
 {
@@ -64,10 +63,9 @@ public:
     ~ngame();
     std::vector<std::string> getMap();
     void loop(dlHandler &hdl);
-    void display();
     void refreshWinSize();
     void refreshBoard();
-    void getInput(dlHandler hdl);
+    void getInput(dlHandler &hdl);
     void loadLevel(std::string level = "default");
     void addEnem(std::string pos);
     void computeEnem();
@@ -87,8 +85,8 @@ private:
     std::vector<bulletT> _bullets;
     std::vector<std::string> _map;
     std::vector<std::string> _item_map;
-    std::vector<std::string> _level_list  = { "maps/map01.txt",
-                                              "maps/map02.txt"};
+    std::vector<std::string> _level_list  = { "games/solar_fox/maps/map01.txt",
+                                              "games/solar_fox/maps/map02.txt"};
 };
 
 #endif /* !GAME_HPP_ */
