@@ -285,46 +285,6 @@ void qix::tmpplayerMove()
     }
 }
 
-// void printPixelArt(char c, std::size_t i, std::size_t j)
-// {
-//     std::string s = "";
-//     s += c;
-
-//     if (c == '1') {
-//         attron(COLOR_PAIR(2));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(2));
-//     } else if (c == '3') {
-//         attron(COLOR_PAIR(4));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(4));
-//     } else if (c == '0') {
-//         attron(COLOR_PAIR(7));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(7));
-//     } else if (c == '2') {
-//         attron(COLOR_PAIR(6));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(6));
-//     } else if (c == '5') {
-//         attron(COLOR_PAIR(3));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(3));
-//     } else if (c == '7') {
-//         attron(COLOR_PAIR(5));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(5));
-//     } else if (c == '4') {
-//         attron(COLOR_PAIR(8));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(8));
-//     } else if (c == '6') {
-//         attron(COLOR_PAIR(9));
-//         mvprintw(i, j, s.c_str()); 
-//         attroff(COLOR_PAIR(9));
-//     }
-// }
-
 void qix::incScore()
 {
     score++;
