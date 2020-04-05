@@ -15,11 +15,13 @@
 class dlHandler {
     private:
         void *_handle = nullptr;
+        int nblib = 0;
     public:
         dlHandler() = default;
         ~dlHandler() = default;
         void loadLib(std::string path);
         void unLoadLib();
+        void changeLib();
         ILib *getLib();
         ILib *lib = nullptr;
 };

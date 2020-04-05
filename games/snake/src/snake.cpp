@@ -39,7 +39,7 @@ void snake::loop(dlHandler &hdl)
 
     map = put_fruit(map, snake);
     hdl.lib->setSpeed(0);
-    while ((input = get_input(hdl.lib)) != 'e') {
+    while ((input = get_input(hdl)) != 'e') {
         if (move_snake(snake, input, map) == -1)
             break;
         if (snake->getPos(0).x == 0 || snake->getPos(0).x == static_cast<int>(map.size() - 1) || snake->getPos(0).y == 0 || snake->getPos(0).y == static_cast<int>(map[0].size() - 1))
@@ -217,7 +217,11 @@ std::vector<std::string> snake::check_if_fruit(std::vector<std::string> map, std
     return (map);
 }
 
-int snake::get_input(ILib *lib)
+int snake::get_input(dlHandler &hdl)
 {
-    return (lib->getchw());
+    int input = hdl.lib->getchw();
+
+    if (input == 'l')
+        hdl.changeLib();
+    return (input);
 }

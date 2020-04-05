@@ -13,10 +13,23 @@ void dlHandler::loadLib(std::string path)
 {
     if (_handle != nullptr)
         unLoadLib();
+    if (path == "lib_arcade_ncurses.so")
+        nblib = 0;
+    else
+        nblib = 1;
     path = "./" + path;
     _handle = dlopen(path.c_str(), RTLD_LAZY);
     if (_handle == nullptr)
         std::cerr << dlerror() << std::endl;
+}
+
+void dlHandler::changeLib()
+{
+    if (nblib == 1)
+        loadLib("lib_arcade_ncurses.so");
+    else
+        loadLib("lib_arcade_sfml.so");
+    getLib();
 }
 
 void dlHandler::unLoadLib()

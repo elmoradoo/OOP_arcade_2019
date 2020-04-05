@@ -60,7 +60,7 @@ class snake : public IGame {
         void add_body_to_snake(std::shared_ptr<snake_c>, std::vector<std::string>);
         std::vector<std::string> check_if_fruit(std::vector<std::string>, std::shared_ptr<snake_c>);
         int change_speed(int);
-        int get_input(ILib *);
+        int get_input(dlHandler &hdl);
 };
 
 #endif /* !SNAKE_HPP_ */

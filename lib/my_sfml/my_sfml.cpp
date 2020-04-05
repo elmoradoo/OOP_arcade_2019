@@ -26,6 +26,7 @@ mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade"), white_rectangle(
 
 mySfml::~mySfml()
 {
+    window.close();
 }
 
 void mySfml::refreshw()
@@ -93,6 +94,8 @@ int mySfml::getchw()
             ret = 'd';
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
             ret = 'f';
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+            ret = 'l';
         else
             ret = -1;
     }
@@ -104,9 +107,10 @@ __attribute__((constructor)) void load_lib()
     lib = new mySfml();
 }
 
-// __attribute__((destructor)) void unload_lib()
-// {
-// }
+__attribute__((destructor)) void unload_lib()
+{
+    delete lib;
+}
 
 extern "C" ILib *entry_point()
 {

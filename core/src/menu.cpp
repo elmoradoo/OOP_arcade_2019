@@ -21,6 +21,8 @@ std::string menu::loop(dlHandler &hdl)
         Display(hdl.lib);
         hdl.lib->refreshw();
         input = interpreteInput(hdl.lib->getchw());
+        if (input == 'l')
+            hdl.changeLib();
         if (input == 'f') {
             if (this->posy == 0) // IF NIBBLER
                 return ("lib_arcade_nibbler.so");
@@ -63,9 +65,10 @@ int menu::interpreteInput(int input)
         posy--;
     if (input == 'e')
         return (-1);
-    if (input == 'f') {
+    if (input == 'f')
         return ('f');
-    }
+    if (input == 'l')
+        return ('l');
     return (0);
 }
 
