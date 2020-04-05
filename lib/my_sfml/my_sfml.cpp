@@ -9,11 +9,12 @@
 
 ILib *lib = nullptr;
 
-mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade"), white_rectangle(sf::Vector2f(10, 10)), red_rectangle(sf::Vector2f(10, 10)), little_white_rectangle(sf::Vector2f(5, 10)), yellow_rectangle(sf::Vector2f(10, 10)), black_rectangle(sf::Vector2f(10, 10)), brown_rectangle(sf::Vector2f(10, 10)), grey_rectangle(sf::Vector2f(10, 10)), orange_rectangle(sf::Vector2f(10, 10)), blue_rectangle(sf::Vector2f(10, 10))
+mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade"), white_rectangle(sf::Vector2f(10, 10)), red_rectangle(sf::Vector2f(10, 10)), little_white_rectangle1(sf::Vector2f(5, 5)), little_white_rectangle2(sf::Vector2f(3, 15)), yellow_rectangle(sf::Vector2f(10, 10)), black_rectangle(sf::Vector2f(10, 10)), brown_rectangle(sf::Vector2f(10, 10)), grey_rectangle(sf::Vector2f(10, 10)), orange_rectangle(sf::Vector2f(10, 10)), blue_rectangle(sf::Vector2f(10, 10))
 {
     white_rectangle.setFillColor(sf::Color(255, 255, 255));
     red_rectangle.setFillColor(sf::Color(255, 0, 0));
-    little_white_rectangle.setFillColor(sf::Color(255, 255, 255));
+    little_white_rectangle1.setFillColor(sf::Color(255, 255, 255));
+    little_white_rectangle2.setFillColor(sf::Color(255, 255, 255));
     yellow_rectangle.setFillColor(sf::Color::Yellow);
     black_rectangle.setFillColor(sf::Color::Black);
     brown_rectangle.setFillColor(sf::Color(88, 41, 0));
@@ -78,15 +79,18 @@ void mySfml::print(int y, int x, const std::string &s)
             } else if (s[i] == '"') {
                 this->grey_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->grey_rectangle);
-            } else if (s[i] == '^') {
+            } else if (s[i] == ')') {
                 this->orange_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->orange_rectangle);
             } else if (s[i] == '(') {
                 this->blue_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->blue_rectangle);
-            } else if (s[i] == '=' || s[i] == '|') {
-                this->little_white_rectangle.setPosition((x + i) * 5, (y * 10));
-                window.draw(this->little_white_rectangle);
+            } else if (s[i] == '=') {
+                this->little_white_rectangle1.setPosition((x + i) * 5, (y * 10));
+                window.draw(this->little_white_rectangle1);
+            } else if (s[i] == '|') {
+                this->little_white_rectangle2.setPosition((x + i) * 5, (y * 10));
+                window.draw(this->little_white_rectangle2);
             } else {
                 this->yellow_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->yellow_rectangle);

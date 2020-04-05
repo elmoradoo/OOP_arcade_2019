@@ -23,7 +23,8 @@ class mySfml : public ILib
         sf::Text text;
         sf::RectangleShape white_rectangle;
         sf::RectangleShape red_rectangle;
-        sf::RectangleShape little_white_rectangle;
+        sf::RectangleShape little_white_rectangle1;
+        sf::RectangleShape little_white_rectangle2;
         sf::RectangleShape yellow_rectangle;
         sf::RectangleShape black_rectangle;
         sf::RectangleShape brown_rectangle;
