@@ -19,6 +19,7 @@
 
 int main(int ac, char **av)
 {
+    setlocale(LC_ALL, "");
     std::string libPath = ac == 2 ? av[1] : "nullptr";
     std::string game;
     if (libPath == "nullptr")

@@ -12,6 +12,8 @@
 
 #include <ncurses.h>
 #include <sys/ioctl.h>
+#include <locale.h>
+
 
 class myNcurses : public ILib
 {

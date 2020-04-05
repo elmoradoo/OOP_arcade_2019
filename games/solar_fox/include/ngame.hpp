@@ -7,7 +7,6 @@
 
 #ifndef GAME_HPP_
 #define GAME_HPP_
-#define _XOPEN_SOURCE_EXTENDED
 #include <memory>
 #include <unistd.h>
 #include <vector>
