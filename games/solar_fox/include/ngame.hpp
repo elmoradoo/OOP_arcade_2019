@@ -17,7 +17,6 @@
 
 #include <sys/ioctl.h>
 #include <sys/utsname.h>
-#include <ncurses.h>
 #include <stdlib.h>
 #include <locale.h>
 
@@ -68,7 +67,7 @@ public:
     void display();
     void refreshWinSize();
     void refreshBoard();
-    void getInput();
+    void getInput(dlHandler hdl);
     void loadLevel(std::string level = "default");
     void addEnem(std::string pos);
     void computeEnem();

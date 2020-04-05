@@ -42,7 +42,7 @@ ngame::ngame()
     this->addEnem("bottom");
     this->addEnem("right");
     this->addEnem("left");
-    this->loadLevel("maps/map01.txt");
+    this->loadLevel("games/solar_fox/maps/map01.txt");
 }
 
 ngame::~ngame() {}
@@ -208,9 +208,9 @@ void ngame::refreshBoard()
     _map.at(_player.y).at(_player.x) = _player.sp;
 }
 
-void ngame::getInput()
+void ngame::getInput(dlHandler hdl)
 {
-    _input = getch();
+    _input = hdl.lib->getchw();
     if (_input == 'q' && _player.x > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x -= 1;
@@ -234,7 +234,7 @@ void ngame::getInput()
 }
 void ngame::loop(dlHandler &hdl)
 {
-    this->getInput();
+    this->getInput(hdl);
     this->refreshBoard();
     hdl.lib->refreshw();
     if (_pv == 0)
