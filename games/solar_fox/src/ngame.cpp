@@ -47,6 +47,11 @@ ngame::ngame()
 
 ngame::~ngame() {}
 
+extern "C" IGame *entry_point()
+{
+    return (solar);
+}
+
 void ngame::loadLevel(std::string level)
 {
     std::ifstream file(level, std::ios::in);
@@ -208,7 +213,7 @@ void ngame::refreshBoard()
     _map.at(_player.y).at(_player.x) = _player.sp;
 }
 
-void ngame::getInput(dlHandler hdl)
+void ngame::getInput(dlHandler &hdl)
 {
     _input = hdl.lib->getchw();
     if (_input == 'q' && _player.x > 1) {
@@ -245,7 +250,6 @@ void ngame::loop(dlHandler &hdl)
     std::string formString = "SCORE [";
     for (; i != _map.size(); i++)
             hdl.lib->print(i, 0, _map.at(i).c_str());
-            // mvprintw(i, 0, _map.at(i).c_str());
     i++;
     formString.append(std::to_string(_points));
     formString.append("/");
@@ -262,5 +266,5 @@ void ngame::loop(dlHandler &hdl)
         formString.append("❤️");
     formString.append(std::to_string(_pv));
     hdl.lib->print(i, 0, formString.c_str());
-    // mvprintw(i, 0, formString.c_str());
+    this->loop(hdl);
 }
