@@ -214,9 +214,11 @@ void ngame::refreshBoard()
     _map.at(_player.y).at(_player.x) = _player.sp;
 }
 
-void ngame::getInput(dlHandler &hdl)
+int ngame::getInput(dlHandler &hdl)
 {
     _input = hdl.lib->getchw();
+    if (_input == 'e')
+        return (2);
     if (_input == 'q' && _player.x > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x -= 1;
@@ -237,10 +239,13 @@ void ngame::getInput(dlHandler &hdl)
         _player.y += 1;
         _player.sp = 'v';
     }
+    return (0);
 }
 void ngame::loop(dlHandler &hdl)
 {
-    this->getInput(hdl);
+    int inp = this->getInput(hdl);
+    if (inp == 2)
+        return;
     this->refreshBoard();
     hdl.lib->refreshw();
     if (_pv == 0)

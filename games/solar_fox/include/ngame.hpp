@@ -64,7 +64,7 @@ public:
     void loop(dlHandler &hdl);
     void refreshWinSize();
     void refreshBoard();
-    void getInput(dlHandler &hdl);
+    int getInput(dlHandler &hdl);
     void loadLevel(std::string level = "default");
     void addEnem(std::string pos);
     void computeEnem();
