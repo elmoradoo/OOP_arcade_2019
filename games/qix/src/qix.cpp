@@ -408,7 +408,7 @@ void qix::display(ILib *lib)
     lib->print(p.y, p.x, p.c.c_str());
     // attron(COLOR_PAIR(1));
     if (tmptime > 20)
-        lib->print(tmpplayer.y, tmpplayer.x, "X");
+        lib->print(tmpplayer.y, tmpplayer.x, "+");
     for (std::size_t i = 0; i != ennemies.size(); i++)
         lib->print(ennemies[i].y, ennemies[i].x, ennemies[i].c.c_str());
     // attroff(COLOR_PAIR(1));
@@ -504,8 +504,8 @@ qix::qix()
     for (int i = 0; i != 102; i++)
         str += "#";
     map.push_back(str);
-    addEnnemies(0, 25, "X");
-    addEnnemies(101, 25, "X");
+    addEnnemies(0, 25, "+");
+    addEnnemies(101, 25, "+");
     setBackground();
     setFirework();
     setGameover();
