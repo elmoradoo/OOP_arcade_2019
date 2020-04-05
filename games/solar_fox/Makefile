@@ -5,20 +5,18 @@
 ## Compilation
 ##
 
-NAME	=	solar_fox
+NAME	=	../lib_arcade_solarfox.so
 
-SRC	=	src/main.cpp	\
-		src/ngame.cpp	\
-		# src/enemy.cpp	\
+SRC	=	src/ngame.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS	=  -I./include -Wall -Wextra -g3
+CPPFLAGS	=  -I./include -I../../lib/ -I../ -I../../core/include -Wall -Wextra -fPIC
 
 all: $(NAME)
 
 $(NAME):	$(OBJ)
-	g++ $(CPPFLAGS) -o $(NAME) $(OBJ) -lncursesw
+	g++ -shared  $(OBJ) -o $(NAME)
 
 clean:
 	rm -f *.o

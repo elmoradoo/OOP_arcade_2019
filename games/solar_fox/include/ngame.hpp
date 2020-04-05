@@ -7,9 +7,22 @@
 
 #ifndef GAME_HPP_
 #define GAME_HPP_
+#define _XOPEN_SOURCE_EXTENDED
+#include <memory>
+#include <unistd.h>
+#include <vector>
 
-#include "main.hpp"
-#include "enemy.hpp"
+#include <iostream>
+#include <fstream>
+
+#include <sys/ioctl.h>
+#include <sys/utsname.h>
+#include <ncurses.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#include "IGame.hpp"
+#include "ILib.hpp"
 
 struct bulletS
 {
@@ -45,12 +58,13 @@ struct enemS
 
 typedef struct enemS enemT;
 
-class ngame
+class ngame : public IGame
 {
 public:
     ngame();
     ~ngame();
     std::vector<std::string> getMap();
+    void loop(dlHandler &hdl);
     void display();
     void refreshWinSize();
     void refreshBoard();

@@ -7,6 +7,13 @@
 
 #include "ngame.hpp"
 
+IGame *solar = nullptr;
+
+__attribute__((constructor)) void load_lib()
+{
+    solar = new ngame;
+}
+
 ngame::ngame()
 {
     ioctl(0, TIOCGWINSZ, &_win);
@@ -30,7 +37,12 @@ ngame::ngame()
     _player.x = 20;
     _player.y = 10;
     _player.sp = '>';
-    _player.bulletID = 0; 
+    _player.bulletID = 0;
+    this->addEnem("top");
+    this->addEnem("bottom");
+    this->addEnem("right");
+    this->addEnem("left");
+    this->loadLevel("maps/map01.txt");
 }
 
 ngame::~ngame() {}
@@ -183,12 +195,6 @@ void ngame::computeBullets()
         if (_map.at(_bullets.at(i).y).at(_bullets.at(i).x) == ' ')
             _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = _bullets.at(i).sp;
     }
-    // if (_bullets.at(0).time >= 13 && _bullets.at(0).time != 16)
-    //         _bullets.at(0).time++;
-    // if (_bullets.at(0).time >= 16) {
-    //         _bullets.at(0).time = 0;
-    //         resetBullet(0);
-    // }
 }
 
 void ngame::refreshBoard()
@@ -197,10 +203,6 @@ void ngame::refreshBoard()
         _map.at(_player.y).at(_player.x) = ' ';
         _points++;
     }
-    // for (size_t i = 0; i < _bullets.size(); i++) {
-    //     if (_map.at(_bullets.at(i).y).at(_bullets.at(i).x) != ' ')
-    //     _map.at(_bullets.at(i).y).at(_bullets.at(i).x) = ' ';
-    // }
     computeEnem();
     computeBullets();
     _map.at(_player.y).at(_player.x) = _player.sp;
@@ -209,30 +211,32 @@ void ngame::refreshBoard()
 void ngame::getInput()
 {
     _input = getch();
-    if (_input == KEY_LEFT && _player.x > 1) {
+    if (_input == 'q' && _player.x > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x -= 1;
         _player.sp = '<';
     }
-    if (_input == KEY_RIGHT && _player.x <= 37) {
+    if (_input == 'd' && _player.x <= 37) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x += 1;
         _player.sp = '>';
     }
-    if (_input == KEY_UP && _player.y > 1) {
+    if (_input == 'z' && _player.y > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.y -= 1;
         _player.sp = '^';
     }
-    if (_input == KEY_DOWN && _player.y < 20) {
+    if (_input == 's' && _player.y < 20) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.y += 1;
         _player.sp = 'v';
     }
 }
-void ngame::display()
+void ngame::loop(dlHandler &hdl)
 {
+    this->getInput();
     this->refreshBoard();
+    hdl.lib->refreshw();
     if (_pv == 0)
         exit (0);
     if (_points == _totalPoints)
@@ -240,13 +244,14 @@ void ngame::display()
     size_t i = 0;
     std::string formString = "SCORE [";
     for (; i != _map.size(); i++)
-            mvprintw(i, 0, _map.at(i).c_str());
+            hdl.lib->print(i, 0, _map.at(i).c_str());
+            // mvprintw(i, 0, _map.at(i).c_str());
     i++;
     formString.append(std::to_string(_points));
     formString.append("/");
     formString.append(std::to_string(_totalPoints));
     formString.append("]");
-    mvprintw(i, 0, formString.c_str());
+    hdl.lib->print(i, 0, formString.c_str());
     formString.clear();
     i += 2;
     if (_pv == 3)
@@ -256,14 +261,6 @@ void ngame::display()
     if (_pv == 1)
         formString.append("❤️");
     formString.append(std::to_string(_pv));
-    mvprintw(i, 0, formString.c_str());
-    // std::string debug = std::to_string(_enem.at(0).x);
-    // debug += "|";
-    // debug += std::to_string(_enem.at(0).y);
-    // mvprintw(i + 1, 0, debug.c_str());
-
-    // mvprintw(0, 0, std::to_string(_win_col).c_str());
-    // mvprintw(1, 0, std::to_string(_win_row).c_str());
-    // for (std::size_t i = 0; i != _map.size(); i++)
-    //     mvprintw(i/* +(_win_row / 2)*/,0 /*( _win_col / 2) - (_map.size() / 2)*/, _map[i].c_str());
+    hdl.lib->print(i, 0, formString.c_str());
+    // mvprintw(i, 0, formString.c_str());
 }

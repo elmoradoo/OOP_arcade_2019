@@ -28,6 +28,7 @@ myNcurses::myNcurses()
     init_pair(7, 15, 15);
     init_pair(8, COLOR_WHITE, COLOR_WHITE);
     init_pair(9, 6, 6);
+    setlocale(LC_ALL, "");
 }
 
 myNcurses::~myNcurses()
