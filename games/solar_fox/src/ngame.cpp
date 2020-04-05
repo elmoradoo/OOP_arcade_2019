@@ -57,6 +57,7 @@ void ngame::loadLevel(std::string level)
     std::ifstream file(level, std::ios::in);
     std::string str = "";
     _totalPoints = 0;
+    _item_map.clear();
     while (std::getline(file, str)) {
         _item_map.push_back(str);
     }
@@ -243,9 +244,14 @@ void ngame::loop(dlHandler &hdl)
     this->refreshBoard();
     hdl.lib->refreshw();
     if (_pv == 0)
-        exit (0);
-    if (_points == _totalPoints)
-        exit (0);
+        return;
+    if (_points == _totalPoints) {
+        _level++;
+        if (_level == _level_list.size())
+            return;
+        this->loadLevel(_level_list[_level]);
+        _points = 0;
+    }
     size_t i = 0;
     std::string formString = "SCORE [";
     for (; i != _map.size(); i++)

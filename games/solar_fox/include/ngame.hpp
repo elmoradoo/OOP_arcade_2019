@@ -84,8 +84,8 @@ private:
     std::vector<bulletT> _bullets;
     std::vector<std::string> _map;
     std::vector<std::string> _item_map;
-    std::vector<std::string> _level_list  = { "games/solar_fox/maps/map01.txt",
-                                              "games/solar_fox/maps/map02.txt"};
+    std::vector<std::string> _level_list  = { "games/solar_fox/maps/map02.txt",
+                                              "games/solar_fox/maps/map03.txt"};
 };
 
 #endif /* !GAME_HPP_ */
