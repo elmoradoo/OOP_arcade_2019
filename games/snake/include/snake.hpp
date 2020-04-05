@@ -51,8 +51,8 @@ class snake : public IGame {
         ~snake();
         void loop(dlHandler &hdl);
         void render_map(std::vector<std::string>, std::shared_ptr<snake_c>, ILib *);
-        int check_if_lose(std::shared_ptr<snake_c>, int, std::vector<std::string>);
-        int move_snake(std::shared_ptr<snake_c>, int, std::vector<std::string>);
+        int check_if_lose(std::shared_ptr<snake_c>, int);
+        int move_snake(std::shared_ptr<snake_c>, int);
         std::vector<std::string> put_snake_on_map(std::shared_ptr<snake_c>, std::vector<std::string>);
         std::vector<std::string> create_map(void);
         std::shared_ptr<snake_c> init_snake(void);

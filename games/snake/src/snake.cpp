@@ -40,7 +40,7 @@ void snake::loop(dlHandler &hdl)
     map = put_fruit(map, snake);
     hdl.lib->setSpeed(0);
     while ((input = get_input(hdl)) != 'e') {
-        if (move_snake(snake, input, map) == -1)
+        if (move_snake(snake, input) == -1)
             break;
         if (snake->getPos(0).x == 0 || snake->getPos(0).x == static_cast<int>(map.size() - 1) || snake->getPos(0).y == 0 || snake->getPos(0).y == static_cast<int>(map[0].size() - 1))
             break;
@@ -67,29 +67,35 @@ void snake::render_map(std::vector<std::string> map, std::shared_ptr<snake_c> sn
     lib->refreshw();
 }
 
-int snake::check_if_lose(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
+int snake::check_if_lose(std::shared_ptr<snake_c> snake, int input)
 {
+    pos_t pos_temp;
     pos_t pos_0 = snake->getPos(0);
     std::string previous = snake->getPrevious();
 
-    if (input == 'z' && previous != "DOWN" && map[pos_0.x - 1][pos_0.y] == '*')
-        return (-1);
-    else if (input == 's' && previous != "UP" && map[pos_0.x + 1][pos_0.y] == '*')
-        return (-1);
-    else if (input == 'q' && previous != "RIGHT" && map[pos_0.x][pos_0.y - 1] == '*')
-        return (-1);
-    else if (input == 'd' && previous != "LEFT" && map[pos_0.x][pos_0.y + 1] == '*')
-        return (-1);
+    if (input == 'z')
+        pos_0.x--;
+    else if (input == 's')
+        pos_0.x++;
+    else if (input == 'q')
+        pos_0.y--;
+    else if (input == 'd')
+        pos_0.y++;
+    for (int i = 1; i < snake->getLength(); i++) {
+        pos_temp = snake->getPos(i);
+        if (pos_0.x == pos_temp.x && pos_0.y == pos_temp.y)
+            return (-1);
+    }
     return (0);
 }
 
-int snake::move_snake(std::shared_ptr<snake_c> snake, int input, std::vector<std::string> map)
+int snake::move_snake(std::shared_ptr<snake_c> snake, int input)
 {
     pos_t previous_pos = snake->getPos(0);
     pos_t temp;
     std::string previous = snake->getPrevious();
 
-    if (check_if_lose(snake, input, map) == -1)
+    if (check_if_lose(snake, input) == -1)
         return (-1);
     else if (input == 'z' && previous != "DOWN") {
         snake->setPosx(previous_pos.x - 1, 0);
