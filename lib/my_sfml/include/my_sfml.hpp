@@ -26,6 +26,10 @@ class mySfml : public ILib
         sf::RectangleShape little_white_rectangle;
         sf::RectangleShape yellow_rectangle;
         sf::RectangleShape black_rectangle;
+        sf::RectangleShape brown_rectangle;
+        sf::RectangleShape grey_rectangle;
+        sf::RectangleShape orange_rectangle;
+        sf::RectangleShape blue_rectangle;
     public:
         mySfml();
         ~mySfml();

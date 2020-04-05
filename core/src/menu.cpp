@@ -47,10 +47,10 @@ void menu::Display(ILib * lib) const
     lib->print(10, 30, "Ncurses");
     lib->print(12, 30, "Sfml");
     lib->print(14, 30, "OpenGL");
-    lib->print(9 + (posy * 2), 9 + (posx * 20), "*************");
-    lib->print(10 + (posy * 2), 9 + (posx * 20), "*");
-    lib->print(10 + (posy * 2), 21 + (posx * 20), "*");
-    lib->print(11 + (posy * 2), 9 + (posx * 20), "*************");
+    lib->print(9 + (posy * 2), 9 + (posx * 20), "=============");
+    lib->print(10 + (posy * 2), 9 + (posx * 20), "|");
+    lib->print(10 + (posy * 2), 21 + (posx * 20), "|");
+    lib->print(11 + (posy * 2), 9 + (posx * 20), "=============");
 }
 
 int menu::interpreteInput(int input)

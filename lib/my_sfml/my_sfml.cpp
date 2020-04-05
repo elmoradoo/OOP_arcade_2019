@@ -9,14 +9,18 @@
 
 ILib *lib = nullptr;
 
-mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade"), white_rectangle(sf::Vector2f(10, 10)), red_rectangle(sf::Vector2f(10, 10)), little_white_rectangle(sf::Vector2f(5, 5)), yellow_rectangle(sf::Vector2f(10, 10)), black_rectangle(sf::Vector2f(10, 10))
+mySfml::mySfml() : window(sf::VideoMode(1920, 1080), "Arcade"), white_rectangle(sf::Vector2f(10, 10)), red_rectangle(sf::Vector2f(10, 10)), little_white_rectangle(sf::Vector2f(5, 10)), yellow_rectangle(sf::Vector2f(10, 10)), black_rectangle(sf::Vector2f(10, 10)), brown_rectangle(sf::Vector2f(10, 10)), grey_rectangle(sf::Vector2f(10, 10)), orange_rectangle(sf::Vector2f(10, 10)), blue_rectangle(sf::Vector2f(10, 10))
 {
     white_rectangle.setFillColor(sf::Color(255, 255, 255));
     red_rectangle.setFillColor(sf::Color(255, 0, 0));
     little_white_rectangle.setFillColor(sf::Color(255, 255, 255));
     yellow_rectangle.setFillColor(sf::Color::Yellow);
     black_rectangle.setFillColor(sf::Color::Black);
-    font.loadFromFile("./Roboto-Thin.ttf");
+    brown_rectangle.setFillColor(sf::Color(88, 41, 0));
+    grey_rectangle.setFillColor(sf::Color(100, 100, 100));
+    orange_rectangle.setFillColor(sf::Color(255, 146, 17));
+    blue_rectangle.setFillColor(sf::Color::Blue);
+    font.loadFromFile("./font/Roboto-Thin.ttf");
     text.setFont(this->font);
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
@@ -68,6 +72,21 @@ void mySfml::print(int y, int x, const std::string &s)
             } else if (s[i] == ' ') {
                 this->black_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->black_rectangle);
+            } else if (s[i] == '&') {
+                this->brown_rectangle.setPosition((x + i) * 10, (y * 10));
+                window.draw(this->brown_rectangle);
+            } else if (s[i] == '"') {
+                this->grey_rectangle.setPosition((x + i) * 10, (y * 10));
+                window.draw(this->grey_rectangle);
+            } else if (s[i] == '^') {
+                this->orange_rectangle.setPosition((x + i) * 10, (y * 10));
+                window.draw(this->orange_rectangle);
+            } else if (s[i] == '(') {
+                this->blue_rectangle.setPosition((x + i) * 10, (y * 10));
+                window.draw(this->blue_rectangle);
+            } else if (s[i] == '=' || s[i] == '|') {
+                this->little_white_rectangle.setPosition((x + i) * 5, (y * 10));
+                window.draw(this->little_white_rectangle);
             } else {
                 this->yellow_rectangle.setPosition((x + i) * 10, (y * 10));
                 window.draw(this->yellow_rectangle);
