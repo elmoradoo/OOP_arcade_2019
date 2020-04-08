@@ -119,6 +119,14 @@ int mySfml::getchw()
             ret = 'f';
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
             ret = 'l';
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            ret = 'w';
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+            ret = 'x';
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+            ret = 'c';
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+            ret = 'v';
         else
             ret = -1;
     }
