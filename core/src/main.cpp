@@ -17,13 +17,24 @@
 #include "ILib.hpp"
 #include "dlHandlerGame.hpp"
 
+void printName()
+{
+    std::string name;
+
+    std::cout << "Enter your name:" << std::endl;
+    std::cin >> name;
+    std::cout << "Hello " << name << " !" << std::endl;
+}
+
 int main(int ac, char **av)
 {
     setlocale(LC_ALL, "");
     std::string libPath = ac == 2 ? av[1] : "nullptr";
     std::string game;
+
     if (libPath == "nullptr")
         return (84);
+    printName();
     dlHandler hdl;
     hdl.loadLib(libPath);
     menu ste;
