@@ -23,16 +23,22 @@ extern "C" IGame *entry_point()
     return (game);
 }
 
-void qix::loop(dlHandler &hdl)
+int qix::loop(dlHandler &hdl)
 {
+    int input = 0;
+
     while (1) { 
         hdl.lib->erasew();
         ennemiesMove();
         display(hdl.lib);
         hdl.lib->refreshw();
-        if (interpreteInput(hdl.lib->getchw()) == -1)
-            break;
+        input = interpreteInput(hdl.lib->getchw());
+        if (input == -1)
+            return (5);
+        if (input >= 1 && input <= 4)
+            return (input);
     }
+    return (5);
 }
 
 
@@ -95,6 +101,14 @@ int qix::interpreteInput(int input)
 {
     p.xb = p.x;
     p.yb = p.y;
+    if (input == 'w')
+        return (1);
+    if (input == 'x')
+        return (2);
+    if (input == 'c')
+        return (3);
+    if (input == 'v')
+        return (4);
     if (input == 'z' && p.y != 0 && map[p.y - 1][p.x] != '*' && map[p.y - 1][p.x] != 'a')
         p.y--;
     if (input == 's' && p.y < 51 && map[p.y + 1][p.x] != '*' && map[p.y + 1][p.x] != 'a')

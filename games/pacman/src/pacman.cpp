@@ -33,7 +33,7 @@ pacman::~pacman()
 
 }
 
-void pacman::loop(dlHandler &hdl)
+int pacman::loop(dlHandler &hdl)
 {
     std::string s = "pacman";
 
@@ -42,4 +42,5 @@ void pacman::loop(dlHandler &hdl)
         hdl.lib->print(10, 10, s);
         hdl.lib->refreshw();
     }
+    return (5);
 }

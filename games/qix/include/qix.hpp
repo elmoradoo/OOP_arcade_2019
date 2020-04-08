@@ -71,7 +71,7 @@ class qix : public IGame{
         int getTmptime() const;
         std::vector<player> getEnnemies() const;
         void display(ILib *lib);
-        void loop(dlHandler &hdl);
+        int loop(dlHandler &hdl);
     private:
         std::vector<std::string> map;
         std::vector<std::string> background;

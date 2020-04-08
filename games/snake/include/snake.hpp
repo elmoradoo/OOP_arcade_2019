@@ -49,7 +49,7 @@ class snake : public IGame {
     public:
         snake();
         ~snake();
-        void loop(dlHandler &hdl);
+        int loop(dlHandler &hdl);
         void render_map(std::vector<std::string>, std::shared_ptr<snake_c>, ILib *);
         int check_if_lose(std::shared_ptr<snake_c>, int);
         int move_snake(std::shared_ptr<snake_c>, int);

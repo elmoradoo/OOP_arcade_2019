@@ -31,7 +31,7 @@ extern "C" IGame *entry_point()
     return (game);
 }
 
-void snake::loop(dlHandler &hdl)
+int snake::loop(dlHandler &hdl)
 {
     int input = 0;
     std::shared_ptr<snake_c> snake = init_snake();
@@ -40,6 +40,8 @@ void snake::loop(dlHandler &hdl)
     map = put_fruit(map, snake);
     hdl.lib->setSpeed(0);
     while ((input = get_input(hdl)) != 'e') {
+        if (input >= 1 && input <= 4)
+            return (input);
         if (move_snake(snake, input) == -1)
             break;
         if (snake->getPos(0).x == 0 || snake->getPos(0).x == static_cast<int>(map.size() - 1) || snake->getPos(0).y == 0 || snake->getPos(0).y == static_cast<int>(map[0].size() - 1))
@@ -54,6 +56,7 @@ void snake::loop(dlHandler &hdl)
         else if (snake->getLength() - 3 == 50)
             hdl.lib->setSpeed(3);
     }
+    return (5);
 }
 
 void snake::render_map(std::vector<std::string> map, std::shared_ptr<snake_c> snake, ILib *lib)
@@ -229,5 +232,13 @@ int snake::get_input(dlHandler &hdl)
 
     if (input == 'l')
         hdl.changeLib();
+    if (input == 'w')
+        return (1);
+    if (input == 'x')
+        return (2);
+    if (input == 'c')
+        return (3);
+    if (input == 'v')
+        return (4);
     return (input);
 }

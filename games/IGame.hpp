@@ -12,7 +12,7 @@
 
 class IGame {
     public:
-        virtual void loop(dlHandler &hdl) = 0;
+        virtual int loop(dlHandler &hdl) = 0;
     protected:
     private:
 };

@@ -218,7 +218,7 @@ int ngame::getInput(dlHandler &hdl)
 {
     _input = hdl.lib->getchw();
     if (_input == 'e')
-        return (2);
+        return (-1);
     if (_input == 'q' && _player.x > 1) {
         _map.at(_player.y).at(_player.x) = ' ';
         _player.x -= 1;
@@ -239,21 +239,31 @@ int ngame::getInput(dlHandler &hdl)
         _player.y += 1;
         _player.sp = 'v';
     }
+    if (_input == 'w')
+        return (1);
+    if (_input == 'x')
+        return (2);
+    if (_input == 'c')
+        return (3);
+    if (_input == 'v')
+        return (4);
     return (0);
 }
-void ngame::loop(dlHandler &hdl)
+int ngame::loop(dlHandler &hdl)
 {
     int inp = this->getInput(hdl);
-    if (inp == 2)
-        return;
+    if (inp == -1)
+        return (5);
+    if (inp >= 1 && inp <= 4)
+        return (inp);
     this->refreshBoard();
     hdl.lib->refreshw();
     if (_pv == 0)
-        return;
+        return (5);
     if (_points == _totalPoints) {
         _level++;
         if (_level == _level_list.size())
-            return;
+            return (5);
         this->loadLevel(_level_list[_level]);
         _points = 0;
     }
@@ -277,5 +287,5 @@ void ngame::loop(dlHandler &hdl)
         formString.append("❤️");
     formString.append(std::to_string(_pv));
     hdl.lib->print(i, 0, formString.c_str());
-    this->loop(hdl);
+    return (this->loop(hdl));
 }

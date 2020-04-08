@@ -33,7 +33,7 @@ centipede::~centipede()
 
 }
 
-void centipede::loop(dlHandler &hdl)
+int centipede::loop(dlHandler &hdl)
 {
     std::string s = "centipede";
 
@@ -42,4 +42,5 @@ void centipede::loop(dlHandler &hdl)
         hdl.lib->print(10, 10, s);
         hdl.lib->refreshw();
     }
+    return (5);
 }

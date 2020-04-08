@@ -5,13 +5,6 @@
 ** main
 */
 
-//
-// dlopen
-// dlsym
-// dlclose
-// dlerror
-//
-
 #include "dlHandler.hpp"
 #include "menu.hpp"
 #include "ILib.hpp"
@@ -24,6 +17,26 @@ void printName()
     std::cout << "Enter your name:" << std::endl;
     std::cin >> name;
     std::cout << "Hello " << name << " !" << std::endl;
+}
+
+void progloop(menu &ste, dlHandler hdl, gameHandler &gHandl)
+{
+    std::string game;
+    IGame *gm = gHandl.getLib();
+    int input = gm->loop(hdl);
+
+    if (input == 1)
+        game = "./games/" + ste.loop(hdl);
+    else if (input == 2)
+        game = "./games/lib_arcade_nibbler.so";
+    else if (input == 3)
+        game = "./games/lib_arcade_qix.so";
+    else if (input == 4)
+        game = "./games/lib_arcade_solarfox.so";
+    else if (input == 5)
+        return;
+    gHandl.loadLib(game);
+    progloop(ste, hdl, gHandl);
 }
 
 int main(int ac, char **av)
@@ -43,11 +56,8 @@ int main(int ac, char **av)
     game = "./games/" + game;
     if (game.find("nothing") != static_cast<long unsigned int> (-1))
         return (0);
-    // hdl.unLoadLib();
     gameHandler gHandl;
     gHandl.loadLib(game);
-    IGame *gm;
-    gm = gHandl.getLib();
-    gm->loop(hdl);
+    progloop(ste, hdl, gHandl);
     return (0);
 }

@@ -61,7 +61,7 @@ public:
     ngame();
     ~ngame();
     std::vector<std::string> getMap();
-    void loop(dlHandler &hdl);
+    int loop(dlHandler &hdl);
     void refreshWinSize();
     void refreshBoard();
     int getInput(dlHandler &hdl);
